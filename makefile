@@ -7,7 +7,12 @@ SRCS= object.cpp figure.cpp rate.cpp equipament.cpp \
       comrate.cpp commap.cpp\
       accumulator.cpp \
       sensor.cpp \
-      main.cpp
+      test/test_point.cpp \
+      test/test_circle.cpp \
+      test/test_position.cpp \
+      test/test_comrate.cpp \
+      test/utils.cpp \
+      test/main.cpp
 OBJS=$(SRCS:.cpp=.o)
 PROG=comlibsim
 
@@ -20,4 +25,4 @@ $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) $< -c -o $@ $(LIBS)
 
 clean:
-	rm -rf *.o *.out
+	rm -rf *.o *.out test/*.o test/*.out
