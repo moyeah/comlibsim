@@ -54,4 +54,10 @@ void ComMap::set_nb_rates (unsigned int nb_rates)
   m_nb_rates = nb_rates;
 }
 
+void ComMap::set (const ComMap& map)
+{
+  m_nb_rates = map.m_nb_rates;
+  m_map = map.m_map;
+}
+
 }

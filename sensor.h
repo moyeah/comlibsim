@@ -9,22 +9,22 @@ class Sensor: public Equipament
 private:
   Position    m_position;
   Accumulator m_accumulator;
-  RateMap     m_rate_map;
+  ComMap      m_com_map;
 
 public:
   Sensor ();
   Sensor (const Position& position,
           const Accumulator& accumulator,
-          const RateMap& rate_map);
+          const ComMap& com_map);
   virtual ~Sensor ();
 
   virtual Position&    get_position    ();
   virtual Accumulator& get_accumulator ();
-  virtual RateMap&     get_rate_map    ();
+  virtual ComMap&      get_com_map    ();
 
   virtual void set_position    (const Position& position);
   virtual void set_accumulator (const Accumulator& accumulator);
-  virtual void set_rate_map    (const RateMap& rate_map);
+  virtual void set_com_map     (const ComMap& com_map);
 };
 
 }

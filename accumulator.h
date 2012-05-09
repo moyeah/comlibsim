@@ -23,6 +23,9 @@ public:
 
   virtual void set_capacity    (unsigned int capacity);
   virtual void set_amount_data (unsigned int amount_data);
+  virtual void set             (unsigned int capacity,
+                                unsigned int amount_data);
+  virtual void set             (const Accumulator& accumulator);
 
   virtual bool is_empty () const;
   virtual bool is_full  () const;

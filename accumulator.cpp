@@ -48,6 +48,21 @@ void Accumulator::set_capacity (unsigned int capacity)
     m_amount_data = m_capacity;
 }
 
+void Accumulator::set (unsigned int capacity, unsigned int amount_data)
+{
+  m_capacity = capacity;
+  if (m_capacity < amount_data)
+    m_amount_data = m_capacity;
+  else
+    m_amount_data = amount_data;
+}
+
+void Accumulator::set (const Accumulator& accumulator)
+{
+  m_capacity = accumulator.m_capacity;
+  m_amount_data = accumulator.m_amount_data;
+}
+
 bool Accumulator::is_empty () const
 {
   if (m_amount_data != 0)

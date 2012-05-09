@@ -22,8 +22,7 @@ public:
   virtual unsigned int get_nb_rates () const;
 
   virtual void set_nb_rates (unsigned int nb_rates);
-
-  virtual 
+  virtual void set (const ComMap& map);
 };
 
 }
