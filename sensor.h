@@ -20,11 +20,15 @@ public:
 
   virtual Position&    get_position    ();
   virtual Accumulator& get_accumulator ();
-  virtual ComMap&      get_com_map    ();
+  virtual ComMap&      get_com_map     ();
+  virtual Sensor&      get             ();
 
   virtual void set_position    (const Position& position);
   virtual void set_accumulator (const Accumulator& accumulator);
   virtual void set_com_map     (const ComMap& com_map);
+  virtual void set             (const Position& position,
+                                const Accumulator& accumulator,
+                                const ComMap& com_map);
 };
 
 }

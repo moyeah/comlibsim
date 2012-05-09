@@ -48,6 +48,11 @@ ComMap& Sensor::get_com_map ()
   return m_com_map;
 }
 
+Sensor& Sensor::get ()
+{
+  return *this;
+}
+
 void Sensor::set_position (const Position& position)
 {
   m_position.set (position);
@@ -60,6 +65,15 @@ void Sensor::set_accumulator (const Accumulator& accumulator)
 
 void Sensor::set_com_map (const ComMap& com_map)
 {
+  m_com_map.set (com_map);
+}
+
+void Sensor::set (const Position& position,
+                  const Accumulator& accumulator,
+                  const ComMap& com_map)
+{
+  m_position.set (position);
+  m_accumulator.set (accumulator);
   m_com_map.set (com_map);
 }
 
