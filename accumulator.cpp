@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 #include "accumulator.h"
 
@@ -33,6 +32,11 @@ unsigned int Accumulator::get_amount_data () const
 Accumulator& Accumulator::get ()
 {
   return *this;
+}
+
+void Accumulator::set_amount_data (unsigned int amount_data)
+{
+  m_amount_data = amount_data;
 }
 
 void Accumulator::set (const Accumulator& accumulator)

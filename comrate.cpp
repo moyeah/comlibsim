@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "point.h"
+#include "position.h"
 #include "circle.h"
 #include "comrate.h"
 
@@ -14,7 +14,7 @@ ComRate::ComRate ():
 {
 }
 
-ComRate::ComRate (const Point& center, double radius, double rate):
+ComRate::ComRate (const Position& center, double radius, double rate):
   m_circle (center, radius),
   m_rate (rate)
 {
@@ -46,6 +46,11 @@ double ComRate::get_rate () const
   return m_rate;
 }
 
+ComRate& ComRate::get ()
+{
+  return *this;
+}
+
 void ComRate::set_circle (const Circle& circle)
 {
   m_circle = circle;
@@ -56,7 +61,7 @@ void ComRate::set_rate (double rate)
   m_rate = rate;
 }
 
-void ComRate::set (const Point& center, double radius, double rate)
+void ComRate::set (const Position& center, double radius, double rate)
 {
   m_circle.set (center, radius);
   m_rate = rate;
@@ -74,9 +79,9 @@ void ComRate::set (const ComRate& comrate)
   m_rate = comrate.m_rate;
 }
 
-double ComRate::get_rate_at (const Point& point) const
+double ComRate::get_rate_at (const Position& position) const
 {
-  if (m_circle.contains (point))
+  if (m_circle.contains (position))
     return m_rate;
 
   return 0.0;

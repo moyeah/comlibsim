@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "point.h"
+#include "position.h"
 #include "circle.h"
 #include "comrate.h"
 #include "commap.h"
