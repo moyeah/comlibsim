@@ -61,6 +61,11 @@ double Circle::get_radius () const
   return m_radius;
 }
 
+Circle& Circle::get ()
+{
+  return *this;
+}
+
 void Circle::set_center (const Point& center)
 {
   m_center = center;
@@ -92,7 +97,7 @@ void Circle::copy (const Circle& circle)
   }
 }
 
-double Circle::get_area () const
+double Circle::area () const
 {
   return PI * m_radius * m_radius;
 }
@@ -103,12 +108,12 @@ bool Circle::contains (const Point& point) const
 
   circle.set_radius (m_center.distance_to (point));
 
-  return circle.get_area () <= this->get_area ();
+  return circle.area () <= this->area ();
 }
 
 bool Circle::contains (const Circle& circle) const
 {
-  return circle.get_area () <= this->get_area ();
+  return circle.area () <= this->area ();
 }
 
 void Circle::write (std::ostream& output) const

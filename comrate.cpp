@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 
 #include "position.h"
 #include "circle.h"
@@ -36,6 +35,29 @@ ComRate::~ComRate ()
 {
 }
 
+ComRate& ComRate::operator = (const ComRate& comrate)
+{
+  this->copy (comrate);
+
+  return *this;
+}
+
+bool ComRate::operator == (const ComRate& comrate) const
+{
+  return m_circle == comrate.m_circle && m_rate == comrate.m_rate;
+}
+
+bool ComRate::operator != (const ComRate& comrate) const
+{
+  return ! operator == (comrate);
+}
+
+std::ostream& operator << (std::ostream& output, const ComRate& comrate)
+{
+  comrate.write (output);
+  return output;
+}
+
 Circle& ComRate::get_circle ()
 {
   return m_circle;
@@ -69,7 +91,7 @@ void ComRate::set (const Position& center, double radius, double rate)
 
 void ComRate::set (const Circle& circle, double rate)
 {
-  m_circle.set (circle);
+  m_circle = circle;
   m_rate = rate;
 }
 
@@ -79,9 +101,26 @@ void ComRate::set (const ComRate& comrate)
   m_rate = comrate.m_rate;
 }
 
-double ComRate::get_rate_at (const Position& position) const
+void ComRate::copy (const ComRate& comrate)
+{
+  if (this != &comrate)
+  {
+    m_circle = comrate.m_circle;
+    m_rate = comrate.m_rate;
+  }
+}
+
+double ComRate::rate_at (const Position& position) const
 {
   if (m_circle.contains (position))
+    return m_rate;
+
+  return 0.0;
+}
+
+double ComRate::rate_at (const Circle& circle) const
+{
+  if (m_circle.contains (circle))
     return m_rate;
 
   return 0.0;

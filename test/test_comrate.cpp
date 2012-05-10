@@ -40,14 +40,14 @@ void test_comrate ()
   ComRate cr0 (p0, 10, 30);
 
   std::cout << "Rate: " << cr0.get_rate () << std::endl;
-  std::cout << "Rate at: " << cr0.get_rate_at (p0) << std::endl;
-  std::cout << "Rate at: " << cr0.get_rate_at (p1) << std::endl;
+  std::cout << "Rate at: " << p0.get () << " " << cr0.rate_at (p0) << std::endl;
+  std::cout << "Rate at: " << p1.get () << " " << cr0.rate_at (p1) << std::endl;
   p0.set_x (9);
-  std::cout << "Rate at: " << cr0.get_rate_at (p0) << std::endl;
+  std::cout << "Rate at: " << p0.get () << " " << cr0.rate_at (p0) << std::endl;
   p0.set_x (10);
-  std::cout << "Rate at: " << cr0.get_rate_at (p0) << std::endl;
+  std::cout << "Rate at: " << p0.get () << " " << cr0.rate_at (p0) << std::endl;
   p0.set_x (11);
-  std::cout << "Rate at: " << cr0.get_rate_at (p0) << std::endl;
+  std::cout << "Rate at: " << p0.get () << " " << cr0.rate_at (p0) << std::endl;
 
   cr0.set (p0, 123, 321);
   cr0.write_ln ();

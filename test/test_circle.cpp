@@ -68,13 +68,13 @@ void test_circle ()
   write_ln ("Area");
   c_0.set_radius (1.0);
   write ("1st circle -> ");
-  std::cout << c_0 << " -> " << c_0.get_area () << std::endl;
+  std::cout << c_0 << " -> " << c_0.area () << std::endl;
   c_1.set_radius (2.0);
   write ("2nd circle -> ");
-  std::cout << c_1 << " -> " << c_1.get_area () << std::endl;
+  std::cout << c_1 << " -> " << c_1.area () << std::endl;
   c_2.set_radius (3.0);
   write ("3rd circle -> ");
-  std::cout << c_2 << " -> " << c_2.get_area () << std::endl;
+  std::cout << c_2 << " -> " << c_2.area () << std::endl;
 
   write_ln ("Contains");
   Point p_0 (5.0, 5.0);

@@ -25,11 +25,12 @@ public:
   virtual bool operator == (const Circle& circle) const;
   virtual bool operator != (const Circle& circle) const;
 
-  friend std::ostream& operator << (std::ostream& output, const Circle& circle);
+  friend std::ostream& operator << (std::ostream& output,
+                                    const Circle& circle);
 
-  virtual Point& get_center ();
-  virtual double get_radius () const;
-  virtual double get_area () const;
+  virtual Point&  get_center ();
+  virtual double  get_radius () const;
+  virtual Circle& get ();
 
   virtual void set_center (const Point& center);
   virtual void set_radius (double radius);
@@ -38,8 +39,9 @@ public:
 
   virtual void copy (const Circle& circle);
 
-  virtual bool contains (const Point& point) const;
-  virtual bool contains (const Circle& circle) const;
+  virtual double area     () const;
+  virtual bool   contains (const Point& point) const;
+  virtual bool   contains (const Circle& circle) const;
 
   virtual void write    (std::ostream& output = std::cout) const;
   virtual void write_ln (std::ostream& output = std::cout) const;

@@ -23,7 +23,8 @@ public:
   virtual bool operator == (const Point& point) const;
   virtual bool operator != (const Point& point) const;
 
-  friend std::ostream& operator << (std::ostream& output, const Point& point);
+  friend std::ostream& operator << (std::ostream& output,
+                                    const Point& point);
 
   virtual double get_x () const;
   virtual double get_y () const;
