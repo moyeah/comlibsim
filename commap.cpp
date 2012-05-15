@@ -9,26 +9,10 @@
 namespace ComLibSim
 {
 
-ComMap::ComMap ():
-  m_map (0),
-  m_nb_rates (0)
-{
-}
-
-ComMap::ComMap (unsigned int nb_rates):
+ComMap::ComMap (int nb_rates):
   m_map (nb_rates),
   m_nb_rates (nb_rates)
 {
-}
-
-ComMap::ComMap (unsigned int nb_rates, const ComRate map[]):
-  m_map (nb_rates),
-  m_nb_rates (nb_rates)
-{
-  m_map.reserve (nb_rates);
-
-  for (int i = 0; i < (int) nb_rates; i++)
-    m_map.push_back (map[i]);
 }
 
 ComMap::ComMap (const ComMap& map):

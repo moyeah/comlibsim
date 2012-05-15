@@ -23,6 +23,10 @@ public:
 
   virtual bool operator == (const ComRate& comrate) const;
   virtual bool operator != (const ComRate& comrate) const;
+  virtual bool operator <= (const ComRate& comrate) const;
+  virtual bool operator <  (const ComRate& comrate) const;
+  virtual bool operator >= (const ComRate& comrate) const;
+  virtual bool operator >  (const ComRate& comrate) const;
 
   friend std::ostream& operator << (std::ostream& output,
                                     const ComRate comrate);

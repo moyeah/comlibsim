@@ -51,4 +51,44 @@ void test_comrate ()
 
   cr0.set (p0, 123, 321);
   cr0.write_ln ();
+
+  delete cr0;
+
+  write_ln ("Testing operators");
+
+  cr0.set (Point (), 10, 10);
+  cr1.set (Point (), 10, 10);
+
+  bool equal = (cr0 == cr1);
+  bool notequal = (cr0 != cr1);
+  bool less_or_equal = (cr0 <= cr1);
+  bool less = (cr0 < cr1);
+  bool greater_or equal = (cr0 >= cr1);
+  bool greater = (cr0 > cr1);
+
+  write_ln ("the two equal");
+  std::cout << "equal: " << equal << std::endl;
+  std::cout << "not equal: " << notequal << std::endl;
+  std::cout << "less or equal: " << less_or_equal << std::endl;
+  std::cout << "less: " << less << std::endl;
+  std::cout << "greater or equal: " << greater_or_equal << std::endl;
+  std::cout << "greater: " << greater << std::endl;
+
+  cr0.set (Point (), 10, 10);
+  cr1.set (Point (), 11, 10);
+
+  bool equal = (cr0 == cr1);
+  bool notequal = (cr0 != cr1);
+  bool less_or_equal = (cr0 <= cr1);
+  bool less = (cr0 < cr1);
+  bool greater_or equal = (cr0 >= cr1);
+  bool greater = (cr0 > cr1);
+
+  write_ln ("the two equal");
+  std::cout << "equal: " << equal << std::endl;
+  std::cout << "not equal: " << notequal << std::endl;
+  std::cout << "less or equal: " << less_or_equal << std::endl;
+  std::cout << "less: " << less << std::endl;
+  std::cout << "greater or equal: " << greater_or_equal << std::endl;
+  std::cout << "greater: " << greater << std::endl;
 }

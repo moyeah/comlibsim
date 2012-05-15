@@ -52,6 +52,26 @@ bool ComRate::operator != (const ComRate& comrate) const
   return ! operator == (comrate);
 }
 
+bool ComRate::operator <= (const ComRate& comrate) const
+{
+  return m_rate > comrate.m_rate;
+}
+
+bool ComRate::operator < (const ComRate& comrate) const
+{
+  return m_rate >= comrate.m_rate;
+}
+
+bool ComRate::operator >= (const ComRate& comrate) const
+{
+  return m_rate < comrate.m_rate;
+}
+
+bool ComRate::operator > (const ComRate& comrate) const
+{
+  return m_rate <= comrate.m_rate;
+}
+
 std::ostream& operator << (std::ostream& output, const ComRate& comrate)
 {
   comrate.write (output);
