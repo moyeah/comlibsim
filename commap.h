@@ -9,33 +9,35 @@ namespace ComLibSim
 class ComMap: public Rate
 {
 private:
-  std::vector<ComRate> m_rates;
-
-  virtual void sort ();
+  std::vector<ComRate> m_com_map;
 
 public:
-  ComMap (int nb_rates);
+  ComMap ();
+  explicit ComMap (int nb_rates = 1);
   ComMap (const ComMap& com_map);
   virtual ~ComMap ();
 
   virtual ComMap& operator = (const ComMap& com_map);
-
-  virtual bool operator == (const ComMap& com_map) const;
-  virtual bool operator != (const ComMap& com_map) const;
 
   friend std::ostream& operator << (std::ostream& output,
                                     const ComMap& com_map);
 
   virtual ComMap& get (const ComMap& com_map);
 
-  virtual void set (const ComMap& map);
+  virtual void set (const ComMap& com_map);
+
+  virtual void copy (const ComMap& com_map);
 
   virtual void push (const ComRate& com_rate);
 
-  virtual ComRate& pull (double rate);
+  virtual void sort ();
 
-  virtual void write    (std::ostream& output = std::cout) const;
-  virtual void write_ln (std::ostream& output = std::cout) const;
+  virtual int    nb_rates () const;
+  virtual double min      () const;
+  virtual double max      () const;
+  virtual double avg      () const;
+
+  virtual void print (std::ostream& output = std::cout) const;
 };
 
 }

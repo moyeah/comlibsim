@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "position.h"
 #include "circle.h"
@@ -9,15 +10,19 @@
 namespace ComLibSim
 {
 
-ComMap::ComMap (int nb_rates):
-  m_map (nb_rates),
-  m_nb_rates (nb_rates)
+ComMap::ComMap ():
+  m_com_map ()
 {
 }
 
-ComMap::ComMap (const ComMap& map):
-  m_nb_rates (map.m_nb_rates),
-  m_map (map.m_map)
+ComMap::ComMap (int nb_rates):
+  m_com_map ()
+{
+  m_com_map.reserve (nb_rates);
+}
+
+ComMap::ComMap (const ComMap& com_map):
+  m_com_map (com_map.m_com_map)
 {
 }
 
@@ -25,23 +30,99 @@ ComMap::~ComMap ()
 {
 }
 
-unsigned int ComMap::get_nb_rates () const
+ComMap& ComMap::operator = (const ComMap& com_map)
 {
-  return m_nb_rates;
+  this->copy ();
+
+  return *this;
 }
 
-void ComMap::set_nb_rates (unsigned int nb_rates)
+ComMap& ComMap::get (const ComMap& com_map)
 {
-  if (static_cast<unsigned int> (m_map.size ()) > nb_rates)
-    m_map.erase (m_map.begin () + nb_rates, m_map.end ());
-
-  m_nb_rates = nb_rates;
+  return *this;
 }
 
-void ComMap::set (const ComMap& map)
+void ComMap::set (const ComMap& com_map)
 {
-  m_nb_rates = map.m_nb_rates;
-  m_map = map.m_map;
+  m_com_map = com_map;
+}
+
+void ComMap::copy (const ComMap& com_map)
+{
+  if (this != &com_map)
+  {
+    delete [] m_com_map;
+
+    m_com_map.clear ();
+    m_com_map.reserve ((size_type) com_map.nb_rates ());
+
+    for_each (com_map.begin (), com_map.end (), this->push ());
+  }
+}
+
+void ComMap::push (const ComRate& com_rate)
+{
+  m_com_map.push_back (com_rate);
+
+  this->sort ();
+}
+
+void ComMap::sort ()
+{
+  std::sort (m_com_map.begin (), m_com_map.end ());
+}
+
+int ComMap::nb_rates () const;
+{
+  return static_cast<int>(m_com_map.size ());
+}
+
+double ComMap::min () const
+{
+  std::vector<ComRate>::const_iterator begin = m_com_map.begin ();
+  std::vector<ComRate>::const_iterator end = m_com_map.end ();
+
+  std::vector<ComRate>::const_iterator iter = min_element (begin, end);
+
+  return iter->get_rate ();
+}
+
+double ComMap::max () const
+{
+  std::vector<ComRate>::const_iterator begin = m_com_map.begin ();
+  std::vector<ComRate>::const_iterator end = m_com_map.end ();
+
+  std::vector<ComRate>::const_iterator iter = max_element (begin, end);
+
+  return iter->get_rate ();
+}
+  
+double ComMap::avg () const
+{
+  double sum = 0.0;
+
+  std::vector<ComRate>::const_iterator end = m_com_map.end ();
+
+  for (std::vector<ComRate>::const_iterator iter = m_com_map.begin ();
+       iter != end;
+       ++iter)
+  {
+    sum += iter->get_rate ();
+  }
+
+  return sum / static_cast<double>(m_com_map.size ());
+}
+
+void ComMap::print (std::ostream& output) const
+{
+  std::vector<ComRate>::const_iterator end = m_com_map.end ();
+
+  for (std::vector<ComRate>::const_iterator iter = m_com_map.begin ();
+       iter != m_com_map.end ();
+       ++iter)
+  {
+    iter->write_ln (output);
+  }
 }
 
 }
