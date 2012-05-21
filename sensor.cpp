@@ -5,9 +5,7 @@
 #include "accumulator.h"
 #include "position.h"
 #include "point.h"
-#include "circle.h"
 #include "comrate.h"
-#include "commap.h"
 #include "sensor.h"
 
 namespace ComLibSim
@@ -16,16 +14,16 @@ namespace ComLibSim
 Sensor::Sensor ():
   m_position (),
   m_accumulator (),
-  m_com_map ()
+  m_com_rate ()
 {
 }
 
 Sensor::Sensor (const Position& position,
                 const Accumulator& accumulator,
-                const ComMap& com_map):
+                const ComRate& com_rate):
   m_position (position),
   m_accumulator (accumulator),
-  m_com_map (com_map)
+  m_com_rate (com_rate)
 {
 }
 
@@ -43,9 +41,9 @@ Accumulator& Sensor::get_accumulator ()
   return m_accumulator;
 }
 
-ComMap& Sensor::get_com_map ()
+ComRate& Sensor::get_com_rate ()
 {
-  return m_com_map;
+  return m_com_rate;
 }
 
 Sensor& Sensor::get ()
@@ -63,18 +61,18 @@ void Sensor::set_accumulator (const Accumulator& accumulator)
   m_accumulator.set (accumulator);
 }
 
-void Sensor::set_com_map (const ComMap& com_map)
+void Sensor::set_com_rate (const ComRate& com_rate)
 {
-  m_com_map.set (com_map);
+  m_com_rate.set (com_rate);
 }
 
 void Sensor::set (const Position& position,
                   const Accumulator& accumulator,
-                  const ComMap& com_map)
+                  const ComRate& com_rate)
 {
   m_position.set (position);
   m_accumulator.set (accumulator);
-  m_com_map.set (com_map);
+  m_com_rate.set (com_rate);
 }
 
 }

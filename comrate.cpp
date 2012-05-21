@@ -1,75 +1,23 @@
+#include <cmath>
 #include <iostream>
 
 #include "position.h"
-#include "circle.h"
 #include "comrate.h"
 
 namespace ComLibSim
 {
 
-ComRate::ComRate ():
-  m_circle (),
-  m_rate (0)
+ComRate::ComRate ()
 {
 }
 
-ComRate::ComRate (const Position& center, double radius, double rate):
-  m_circle (center, radius),
-  m_rate (rate)
-{
-}
-
-ComRate::ComRate (const Circle& circle, double rate):
-  m_circle (circle),
-  m_rate (rate)
-{
-}
-
-ComRate::ComRate (const ComRate& comrate):
-  m_circle (comrate.m_circle),
-  m_rate (comrate.m_rate)
+ComRate::ComRate (const Position& reference):
+  m_reference (&reference)
 {
 }
 
 ComRate::~ComRate ()
 {
-}
-
-ComRate& ComRate::operator = (const ComRate& comrate)
-{
-  this->copy (comrate);
-
-  return *this;
-}
-
-bool ComRate::operator == (const ComRate& comrate) const
-{
-  return m_circle == comrate.m_circle && m_rate == comrate.m_rate;
-}
-
-bool ComRate::operator != (const ComRate& comrate) const
-{
-  return ! operator == (comrate);
-}
-
-bool ComRate::operator <= (const ComRate& comrate) const
-{
-  return m_rate > comrate.m_rate;
-}
-
-bool ComRate::operator < (const ComRate& comrate) const
-{
-  return m_rate >= comrate.m_rate;
-}
-
-bool ComRate::operator >= (const ComRate& comrate) const
-{
-  return m_rate < comrate.m_rate;
-}
-
-bool ComRate::operator > (const ComRate& comrate) const
-{
-  return m_rate <= comrate.m_rate;
 }
 
 std::ostream& operator << (std::ostream& output, const ComRate& comrate)
@@ -78,14 +26,9 @@ std::ostream& operator << (std::ostream& output, const ComRate& comrate)
   return output;
 }
 
-Circle& ComRate::get_circle ()
+const Position& ComRate::get_reference () const
 {
-  return m_circle;
-}
-
-double ComRate::get_rate () const
-{
-  return m_rate;
+  return *m_reference;
 }
 
 ComRate& ComRate::get ()
@@ -93,69 +36,43 @@ ComRate& ComRate::get ()
   return *this;
 }
 
-void ComRate::set_circle (const Circle& circle)
+void ComRate::set_reference(const Position& reference)
 {
-  m_circle = circle;
+  m_reference = &reference;
 }
 
-void ComRate::set_rate (double rate)
+double ComRate::rate_at (double distance) const
 {
-  m_rate = rate;
-}
+  if (distance < m_radius_low)
+    return 4.0;
 
-void ComRate::set (const Position& center, double radius, double rate)
-{
-  m_circle.set (center, radius);
-  m_rate = rate;
-}
+  if (distance < m_radius_high)
+    return 12 * ::pow (10.0, -0.024 * distance);
 
-void ComRate::set (const Circle& circle, double rate)
-{
-  m_circle = circle;
-  m_rate = rate;
-}
-
-void ComRate::set (const ComRate& comrate)
-{
-  m_circle = comrate.m_circle;
-  m_rate = comrate.m_rate;
-}
-
-void ComRate::copy (const ComRate& comrate)
-{
-  if (this != &comrate)
-  {
-    m_circle = comrate.m_circle;
-    m_rate = comrate.m_rate;
-  }
+  return 0.0;
 }
 
 double ComRate::rate_at (const Position& position) const
 {
-  if (m_circle.contains (position))
-    return m_rate;
+  double distance = m_reference->distance_to (position);
 
-  return 0.0;
-}
-
-double ComRate::rate_at (const Circle& circle) const
-{
-  if (m_circle.contains (circle))
-    return m_rate;
-
-  return 0.0;
+  return this->rate_at (distance);
 }
 
 void ComRate::write (std::ostream& output) const
 {
-  m_circle.write ();
-  output << " rate=" << m_rate;
+  m_reference->write ();
+
+  for (int i = 0; i < 100; i=i+10)
+    output << " rate=" << this->rate_at ((double) i);
 }
 
 void ComRate::write_ln (std::ostream& output) const
 {
-  m_circle.write ();
-  output << " rate=" << m_rate << std::endl;
+  m_reference->write ();
+
+  for (int i = 0; i < 100; i=i+10)
+    output << " rate=" << this->rate_at ((double) i) << std::endl;
 }
 
 }

@@ -2,13 +2,12 @@ CC=g++
 CFLAGS=-Wall
 LIBS=
 SRCS= object.cpp figure.cpp rate.cpp equipament.cpp \
-      point.cpp circle.cpp \
+      point.cpp \
       position.cpp \
-      comrate.cpp commap.cpp\
+      comrate.cpp \
       accumulator.cpp \
       sensor.cpp \
       test/test_point.cpp \
-      test/test_circle.cpp \
       test/test_position.cpp \
       test/test_comrate.cpp \
       test/utils.cpp \

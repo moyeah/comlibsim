@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "utils.h"
 #include "../position.h"
+#include "../circle.h"
 #include "../comrate.h"
 
 void test_comrate ()
@@ -14,12 +16,14 @@ void test_comrate ()
   Position position;
 
   ComRate comrate_0;
-  ComRate comrate_1 (Point ());
-  ComRate comrate_2 (position);
+  ComRate comrate_1 (Circle (Point (), 10), 100);
+  ComRate comrate_2 (comrate_1);
+  ComRate comrate_3 (position, 100, 12);
 
   comrate_0.write_ln ();
   comrate_1.write_ln ();
   comrate_2.write_ln ();
+  comrate_3.write_ln ();
 
   write_ln ("Changing settings:");
 
