@@ -7,7 +7,8 @@ namespace ComLibSim
 class Object
 {
 public:
-  virtual ~Object ();
+  virtual Object* object () const = 0;
+  virtual ~Object () {};
 };
 
 }

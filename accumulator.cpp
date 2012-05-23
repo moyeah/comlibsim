@@ -5,12 +5,11 @@
 namespace ComLibSim
 {
 
-Accumulator::Accumulator ():
-  m_amount_data (0)
+Accumulator::Accumulator ()
 {
 }
 
-Accumulator::Accumulator (int amount_data):
+Accumulator::Accumulator (double amount_data):
   m_amount_data (amount_data)
 {
 }
@@ -22,6 +21,17 @@ Accumulator::Accumulator (const Accumulator& accumulator):
 
 Accumulator::~Accumulator ()
 {
+}
+
+Object* Accumulator::object () const
+{
+  return new Accumulator (*this);
+}
+
+void Accumulator::copy (const Accumulator& accumulator)
+{
+  if (this != &accumulator)
+    m_amount_data = accumulator.m_amount_data;
 }
 
 Accumulator& Accumulator::operator = (const Accumulator& accumulator)
@@ -41,49 +51,34 @@ bool Accumulator::operator != (const Accumulator& accumulator) const
   return ! operator == (accumulator);
 }
 
-std::ostream& operator << (std::ostream& output,
-                           const Accumulator& accumulator)
+bool Accumulator::operator > (const Accumulator& accumulator) const
 {
-  accumulator.write (output);
-  return output;
+  return m_accumulator > accumulator._m_accumulator;
 }
 
-int Accumulator::get_amount_data () const
+bool Accumulator::operator < (const Accumulator& accumulator) const
+{
+  return m_accumulator < accumulator._m_accumulator;
+}
+
+bool Accumulator::operator >= (const Accumulator& accumulator) const
+{
+  return m_accumulator >= accumulator._m_accumulator;
+}
+
+bool Accumulator::operator <= (const Accumulator& accumulator) const
+{
+  return m_accumulator <= accumulator._m_accumulator;
+}
+
+double Accumulator::get_amount_data () const
 {
   return m_amount_data;
 }
 
-Accumulator& Accumulator::get ()
-{
-  return *this;
-}
-
-void Accumulator::set_amount_data (int amount_data)
-{
-  m_amount_data = amount_data;
-}
-
-void Accumulator::set (const Accumulator& accumulator)
-{
-  m_amount_data = accumulator.m_amount_data;
-}
-
-void Accumulator::copy (const Accumulator& accumulator)
-{
-  if (this != &accumulator)
-    m_amount_data = accumulator.m_amount_data;
-}
-
 bool Accumulator::is_empty () const
 {
-  if (m_amount_data != 0)
-    return false;
-
-  return true;
-}
-
-void Accumulator::download (double rate)
-{
+  return m_amount_data <= 0.0;
 }
 
 void Accumulator::write (std::ostream& output) const
@@ -93,7 +88,30 @@ void Accumulator::write (std::ostream& output) const
 
 void Accumulator::write_ln (std::ostream& output) const
 {
-  output << "Amount data = " << m_amount_data << std::endl;
+  this->write (output);
+
+  output << std::endl;
+}
+
+std::ostream& operator << (std::ostream& output,
+                           const Accumulator& accumulator)
+{
+  accumulator.write (output);
+
+  return output;
+}
+
+void Accumulator::read (std::istream& input)
+{
+  input >> m_amount_data;
+}
+
+std::istream& operator >> (std::istream& input,
+                           const Accumulator& accumulator)
+{
+  accumulator.read (input);
+
+  return input;
 }
 
 }
