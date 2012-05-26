@@ -1,18 +1,28 @@
 #include <cmath>
 #include <iostream>
 
+#include "object.h"
 #include "position.h"
 #include "comrate.h"
 
 namespace ComLibSim
 {
 
-ComRate::ComRate ()
+ComRate::ComRate ():
+  m_reference (new Position()),
+  m_max_rate (0.0)
 {
 }
 
-ComRate::ComRate (const Position& reference):
-  m_reference (&reference)
+ComRate::ComRate (const Position& reference, double max_rate):
+  m_reference (&reference),
+  m_max_rate (max_rate)
+{
+}
+
+ComRate::ComRate (const ComRate& com_rate):
+  m_reference (com_rate.m_reference),
+  m_max_rate (com_rate.m_max_rate)
 {
 }
 
@@ -20,34 +30,53 @@ ComRate::~ComRate ()
 {
 }
 
-std::ostream& operator << (std::ostream& output, const ComRate& comrate)
+Object* ComRate::object () const
 {
-  comrate.write (output);
-  return output;
+  return new ComRate (*this);
 }
 
-const Position& ComRate::get_reference () const
+bool ComRate::operator == (const ComRate& com_rate) const
 {
-  return *m_reference;
+  return m_max_rate == com_rate.m_max_rate;
 }
 
-ComRate& ComRate::get ()
+bool ComRate::operator != (const ComRate& com_rate) const
 {
-  return *this;
+  return ! operator == (com_rate);
 }
 
-void ComRate::set_reference(const Position& reference)
+bool ComRate::operator > (const ComRate& com_rate) const
 {
-  m_reference = &reference;
+  return m_max_rate > com_rate.m_max_rate;
+}
+
+bool ComRate::operator < (const ComRate& com_rate) const
+{
+  return m_max_rate < com_rate.m_max_rate;
+}
+
+bool ComRate::operator >= (const ComRate& com_rate) const
+{
+  return m_max_rate >= com_rate.m_max_rate;
+}
+
+bool ComRate::operator <= (const ComRate& com_rate) const
+{
+  return m_max_rate <= com_rate.m_max_rate;
+}
+
+double ComRate::get_max_rate () const
+{
+  return m_max_rate;
 }
 
 double ComRate::rate_at (double distance) const
 {
   if (distance < m_radius_low)
-    return 4.0;
+    return m_max_rate;
 
   if (distance < m_radius_high)
-    return 12 * ::pow (10.0, -0.024 * distance);
+    return m_max_rate * ::pow (10.0, -0.024 * distance);
 
   return 0.0;
 }
@@ -64,7 +93,7 @@ void ComRate::write (std::ostream& output) const
   m_reference->write ();
 
   for (int i = 0; i < 100; i=i+10)
-    output << " rate=" << this->rate_at ((double) i);
+    output << " rate=" << this->rate_at ((double) i) << " ";
 }
 
 void ComRate::write_ln (std::ostream& output) const
@@ -73,6 +102,16 @@ void ComRate::write_ln (std::ostream& output) const
 
   for (int i = 0; i < 100; i=i+10)
     output << " rate=" << this->rate_at ((double) i) << std::endl;
+
+  output << "END" << std::endl;
+}
+
+std::ostream& operator << (std::ostream& output,
+                           const ComRate& com_rate)
+{
+  com_rate.write (output);
+
+  return output;
 }
 
 }

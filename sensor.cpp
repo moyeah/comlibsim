@@ -1,29 +1,20 @@
 #include <iostream>
-#include <vector>
 
-#include "equipament.h"
+#include "object.h"
 #include "accumulator.h"
-#include "position.h"
-#include "point.h"
 #include "comrate.h"
+#include "position.h"
 #include "sensor.h"
 
 namespace ComLibSim
 {
 
-Sensor::Sensor ():
-  m_position (),
-  m_accumulator (),
-  m_com_rate ()
-{
-}
-
 Sensor::Sensor (const Position& position,
-                const Accumulator& accumulator,
-                const ComRate& com_rate):
-  m_position (position),
-  m_accumulator (accumulator),
-  m_com_rate (com_rate)
+                double max_rate,
+                double data):
+  m_accumulator(Accumulator (data)),
+  m_position(position),
+  m_com_rate(ComRate (m_position, max_rate))
 {
 }
 
@@ -31,48 +22,60 @@ Sensor::~Sensor ()
 {
 }
 
-Position& Sensor::get_position ()
+Object* Sensor::object () const
 {
-  return m_position;
+  return new Sensor (*this);
 }
 
-Accumulator& Sensor::get_accumulator ()
+void Sensor::data (double data)
 {
-  return m_accumulator;
+  m_accumulator.set_amount_data (data);
 }
 
-ComRate& Sensor::get_com_rate ()
+bool Sensor::is_empty () const
 {
-  return m_com_rate;
+  return m_accumulator.is_empty ();
 }
 
-Sensor& Sensor::get ()
+double Sensor::data () const
 {
-  return *this;
+  return m_accumulator.get_amount_data ();
 }
 
-void Sensor::set_position (const Position& position)
+double Sensor::max_rate () const
 {
-  m_position.set (position);
+  return m_com_rate.get_max_rate ();
 }
 
-void Sensor::set_accumulator (const Accumulator& accumulator)
+double Sensor::rate_at (const Position& position) const
 {
-  m_accumulator.set (accumulator);
+  return m_com_rate.rate_at (position);
 }
 
-void Sensor::set_com_rate (const ComRate& com_rate)
+double Sensor::distance_to (const Position& position) const
 {
-  m_com_rate.set (com_rate);
+  return m_position.distance_to (position);
 }
 
-void Sensor::set (const Position& position,
-                  const Accumulator& accumulator,
-                  const ComRate& com_rate)
+void Sensor::write (std::ostream& output) const
 {
-  m_position.set (position);
-  m_accumulator.set (accumulator);
-  m_com_rate.set (com_rate);
+  output << "Sensor at " << m_position << " " <<
+            m_accumulator << " " << m_com_rate;
+}
+
+void Sensor::write_ln (std::ostream& output) const
+{
+  this->write (output);
+
+  output << std::endl;
+}
+
+std::ostream& operator << (std::ostream& output,
+                           const Sensor& sensor)
+{
+  sensor.write (output);
+
+  return output;
 }
 
 }

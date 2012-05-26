@@ -28,17 +28,14 @@ public:
 
   virtual double get_amount_data () const;
 
+  virtual void set_amount_data (double amount_data);
+
   virtual bool is_empty () const;
 
   virtual void write    (std::ostream& output = std::cout) const;
   virtual void write_ln (std::ostream& output = std::cout) const;
 
   friend std::ostream& operator << (std::ostream& output,
-                                    const Accumulator& accumulator);
-
-  virtual void read (std::istream& input = std::cin);
-
-  friend std::istream& operator >> (std::istream& input,
                                     const Accumulator& accumulator);
 };
 

@@ -1,11 +1,13 @@
 #include <iostream>
 
+#include "object.h"
 #include "accumulator.h"
 
 namespace ComLibSim
 {
 
-Accumulator::Accumulator ()
+Accumulator::Accumulator ():
+  m_amount_data (0.0)
 {
 }
 
@@ -53,27 +55,32 @@ bool Accumulator::operator != (const Accumulator& accumulator) const
 
 bool Accumulator::operator > (const Accumulator& accumulator) const
 {
-  return m_accumulator > accumulator._m_accumulator;
+  return m_amount_data > accumulator.m_amount_data;
 }
 
 bool Accumulator::operator < (const Accumulator& accumulator) const
 {
-  return m_accumulator < accumulator._m_accumulator;
+  return m_amount_data < accumulator.m_amount_data;
 }
 
 bool Accumulator::operator >= (const Accumulator& accumulator) const
 {
-  return m_accumulator >= accumulator._m_accumulator;
+  return m_amount_data >= accumulator.m_amount_data;
 }
 
 bool Accumulator::operator <= (const Accumulator& accumulator) const
 {
-  return m_accumulator <= accumulator._m_accumulator;
+  return m_amount_data <= accumulator.m_amount_data;
 }
 
 double Accumulator::get_amount_data () const
 {
   return m_amount_data;
+}
+
+void Accumulator::set_amount_data (double amount_data)
+{
+  m_amount_data = amount_data;
 }
 
 bool Accumulator::is_empty () const
@@ -99,19 +106,6 @@ std::ostream& operator << (std::ostream& output,
   accumulator.write (output);
 
   return output;
-}
-
-void Accumulator::read (std::istream& input)
-{
-  input >> m_amount_data;
-}
-
-std::istream& operator >> (std::istream& input,
-                           const Accumulator& accumulator)
-{
-  accumulator.read (input);
-
-  return input;
 }
 
 }

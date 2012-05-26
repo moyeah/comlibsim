@@ -1,29 +1,9 @@
 class Object
 |
-|-> class Figure
-|   |
-|   |-> class Point
-|   |   |
-|   |   |->class Position
-|   |
-|   |-> class Circle
+|-> class Sensor
 |
-|-> class Rate
-|   |
-|   |-> class ComRate
-|   |   |private
-|   |   |  Circle
-|   |
-|   |-> class RateMap
+|-> class Accumulator
 |
-|-> class Equipament
-|   |
-|   |-> class Accumulator
-|   |
-|   |-> class Sensor
-|   |   |private
-|   |   |  Position
-|   |   |  Accumulator
-|   |   |  RateMap
-|   |
-|   |-> class Cluster
+|-> class ComRate
+|
+|-> class Position

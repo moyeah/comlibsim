@@ -1,16 +1,15 @@
 CC=g++
 CFLAGS=-Wall
 LIBS=
-SRCS= object.cpp figure.cpp rate.cpp equipament.cpp \
-      point.cpp \
-      position.cpp \
+SRCS= accumulator.cpp \
       comrate.cpp \
-      accumulator.cpp \
+      position.cpp \
       sensor.cpp \
-      test/test_point.cpp \
-      test/test_position.cpp \
-      test/test_comrate.cpp \
       test/utils.cpp \
+      test/test_accumulator.cpp \
+      test/test_comrate.cpp \
+      test/test_position.cpp \
+      test/test_sensor.cpp \
       test/main.cpp
 OBJS=$(SRCS:.cpp=.o)
 PROG=comlibsim

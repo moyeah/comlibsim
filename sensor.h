@@ -4,31 +4,34 @@
 namespace ComLibSim
 {
 
-class Sensor: public Equipament
+class Sensor: public Object
 {
 private:
-  Position    m_position;
   Accumulator m_accumulator;
   ComRate     m_com_rate;
+  Position    m_position;
 
 public:
-  Sensor ();
   Sensor (const Position& position,
-          const Accumulator& accumulator,
-          const ComRate& com_rate);
+          double max_rate,
+          double data);
   virtual ~Sensor ();
 
-  virtual Position&    get_position    ();
-  virtual Accumulator& get_accumulator ();
-  virtual ComRate&     get_rate        ();
-  virtual Sensor&      get             ();
+  virtual Object* object  () const;
 
-  virtual void set_position    (const Position& position);
-  virtual void set_accumulator (const Accumulator& accumulator);
-  virtual void set_com_rate    (const ComRate& com_rate);
-  virtual void set             (const Position& position,
-                                const Accumulator& accumulator,
-                                const ComRate& com_rate);
+  virtual void data (double data);
+
+  virtual bool   is_empty    () const;
+  virtual double data        () const;
+  virtual double max_rate    () const;
+  virtual double rate_at     (const Position& position) const;
+  virtual double distance_to (const Position& position) const;
+
+  virtual void write    (std::ostream& output = std::cout) const;
+  virtual void write_ln (std::ostream& output = std::cout) const;
+
+  friend std::ostream& operator << (std::ostream& output,
+                                    const Sensor& sensor);
 };
 
 }
