@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "object.h"
-#include "accumulator.h"
+#include "object.hpp"
+#include "accumulator.hpp"
 
 namespace ComLibSim
 {

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "utils.h"
-#include "../object.h"
-#include "../accumulator.h"
+#include "utils.hpp"
+#include "../object.hpp"
+#include "../accumulator.hpp"
 
 void test_accumulator ()
 {

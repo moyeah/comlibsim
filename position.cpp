@@ -1,8 +1,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "object.h"
-#include "position.h"
+#include "object.hpp"
+#include "position.hpp"
 
 namespace ComLibSim
 {

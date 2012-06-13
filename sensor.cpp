@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "object.h"
-#include "accumulator.h"
-#include "comrate.h"
-#include "position.h"
-#include "sensor.h"
+#include "object.hpp"
+#include "accumulator.hpp"
+#include "comrate.hpp"
+#include "position.hpp"
+#include "sensor.hpp"
 
 namespace ComLibSim
 {
@@ -27,9 +27,26 @@ Object* Sensor::object () const
   return new Sensor (*this);
 }
 
+bool Sensor::operator == (const Sensor& sensor) const
+{
+  return m_accumulator == sensor.m_accumulator &&
+         m_position == sensor.m_position &&
+         m_com_rate == sensor.m_com_rate;
+}
+
+bool Sensor::operator != (const Sensor& sensor) const
+{
+  return ! operator == (sensor);
+}
+
 void Sensor::data (double data)
 {
   m_accumulator.set_amount_data (data);
+}
+
+void Sensor::rate (double rate)
+{
+	m_com_rate.set_act_rate (rate);
 }
 
 bool Sensor::is_empty () const
@@ -45,6 +62,11 @@ double Sensor::data () const
 double Sensor::max_rate () const
 {
   return m_com_rate.get_max_rate ();
+}
+
+double Sensor::rate () const
+{
+  return m_com_rate.get_act_rate ();
 }
 
 double Sensor::rate_at (const Position& position) const

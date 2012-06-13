@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "utils.h"
-#include "../object.h"
-#include "../comrate.h"
-#include "../position.h"
+#include "utils.hpp"
+#include "../object.hpp"
+#include "../comrate.hpp"
+#include "../position.hpp"
 
 void test_comrate ()
 {

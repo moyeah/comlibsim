@@ -1,8 +1,8 @@
-#include "test_accumulator.h"
-#include "test_comrate.h"
-#include "test_position.h"
-#include "test_sensor.h"
-#include "test_cluster.h"
+#include "test_accumulator.hpp"
+#include "test_comrate.hpp"
+#include "test_position.hpp"
+#include "test_sensor.hpp"
+#include "test_cluster.hpp"
 
 int main ()
 {

@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 
-#include "utils.h"
-#include "../object.h"
-#include "../accumulator.h"
-#include "../comrate.h"
-#include "../position.h"
-#include "../sensor.h"
+#include "utils.hpp"
+#include "../object.hpp"
+#include "../accumulator.hpp"
+#include "../comrate.hpp"
+#include "../position.hpp"
+#include "../sensor.hpp"
 
 void test_sensor ()
 {

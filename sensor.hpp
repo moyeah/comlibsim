@@ -19,11 +19,16 @@ public:
 
   virtual Object* object  () const;
 
+  virtual bool operator == (const Sensor& sensor) const;
+  virtual bool operator != (const Sensor& sensor) const;
+
   virtual void data (double data);
+  virtual void rate (double rate);
 
   virtual bool   is_empty    () const;
   virtual double data        () const;
   virtual double max_rate    () const;
+  virtual double rate        () const;
   virtual double rate_at     (const Position& position) const;
   virtual double distance_to (const Position& position) const;
 

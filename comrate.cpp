@@ -1,28 +1,33 @@
 #include <cmath>
 #include <iostream>
 
-#include "object.h"
-#include "position.h"
-#include "comrate.h"
+#include "object.hpp"
+#include "position.hpp"
+#include "comrate.hpp"
 
 namespace ComLibSim
 {
 
 ComRate::ComRate ():
   m_reference (new Position()),
-  m_max_rate (0.0)
+  m_max_rate (0.0),
+  m_act_rate (0.0)
 {
 }
 
-ComRate::ComRate (const Position& reference, double max_rate):
+ComRate::ComRate (const Position& reference,
+                  double max_rate,
+                  double act_rate):
   m_reference (&reference),
-  m_max_rate (max_rate)
+  m_max_rate (max_rate),
+  m_act_rate (act_rate)
 {
 }
 
 ComRate::ComRate (const ComRate& com_rate):
   m_reference (com_rate.m_reference),
-  m_max_rate (com_rate.m_max_rate)
+  m_max_rate (com_rate.m_max_rate),
+  m_act_rate (com_rate.m_act_rate)
 {
 }
 
@@ -65,9 +70,19 @@ bool ComRate::operator <= (const ComRate& com_rate) const
   return m_max_rate <= com_rate.m_max_rate;
 }
 
+void ComRate::set_act_rate (double act_rate)
+{
+  m_act_rate = act_rate;
+}
+
 double ComRate::get_max_rate () const
 {
   return m_max_rate;
+}
+
+double ComRate::get_act_rate () const
+{
+  return m_act_rate;
 }
 
 double ComRate::rate_at (double distance) const
@@ -92,17 +107,19 @@ void ComRate::write (std::ostream& output) const
 {
   m_reference->write ();
 
-  for (int i = 0; i < 100; i=i+10)
-    output << " rate=" << this->rate_at ((double) i) << " ";
+  output << " Actual rate=" << this->get_act_rate () <<
+            std::endl << "Rates: ";
+
+  for (int i = 0; i < 100; i=i+20)
+  {
+    output << this->rate_at ((double) i) << " ";
+  }
 }
 
 void ComRate::write_ln (std::ostream& output) const
 {
-  m_reference->write ();
-
-  for (int i = 0; i < 100; i=i+10)
-    output << " rate=" << this->rate_at ((double) i) << std::endl;
-
+  this->write (output);
+  
   output << "END" << std::endl;
 }
 
