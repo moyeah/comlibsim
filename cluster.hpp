@@ -29,8 +29,15 @@ public:
   virtual int    nb_act_sensors () const;
   virtual double act_bandwidth  () const;
   virtual bool   scheduling     () const;
+  virtual int    nb_sensors     () const;
 
   virtual void add (const Sensor& sensor);
+
+  virtual void get_data (double *data);
+  virtual void get_rate (double *bandwidth);
+
+  virtual void set_data (double *data);
+  virtual void set_rate (double *bandwidth);
 
   virtual Sensor&       closest (const Position& position);
   virtual const Sensor& closest (const Position& position) const;

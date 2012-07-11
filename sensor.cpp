@@ -46,7 +46,7 @@ void Sensor::data (double data)
 
 void Sensor::rate (double rate)
 {
-	m_com_rate.set_act_rate (rate);
+  m_com_rate.set_act_rate (rate);
 }
 
 bool Sensor::is_empty () const

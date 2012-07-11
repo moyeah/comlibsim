@@ -20,11 +20,11 @@ double Cluster::ComMap::select (std::vector<Sensor>& sensors,
        i != sensors.end ();
        i++)
   {
-	double rate = i->rate_at (position);
+    double rate = i->rate_at (position);
 	
     if (!i->is_empty () && rate != 0.0)
     {
-	    bandwidth += rate;
+      bandwidth += rate;
       i->rate (rate);
       push_back (i);
     }
@@ -70,9 +70,66 @@ bool Cluster::scheduling () const
   return m_scheduling;
 }
 
+int Cluster::nb_sensors () const
+{
+  return static_cast<int>(m_sensors.size ());
+}
+
 void Cluster::add (const Sensor& sensor)
 {
   m_sensors.push_back (sensor);
+}
+
+void Cluster::get_data (double *data)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    data[j] = i->data ();
+    j++;
+  }
+}
+
+void Cluster::get_rate (double *rate)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    rate[j] = i->rate ();
+    j++;
+  }
+}
+
+void Cluster::set_data (double *data)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->data (data[j]);
+    j++;
+  }
+}
+
+void Cluster::set_rate (double *rate)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->rate (rate[j]);
+    j++;
+  }
 }
 
 Sensor& Cluster::closest (const Position& position)
@@ -129,8 +186,7 @@ Cluster::ComMap Cluster::map (const Position& position,
 
 void Cluster::write (std::ostream& output) const
 {
-  output << "Cluster size: " <<
-            static_cast<unsigned>(m_sensors.size ()) <<
+  output << "Cluster size: " << this->nb_sensors () <<
             std::endl <<
             "Nb of active sensors: " << m_nb_act_sensors <<
             std::endl <<
