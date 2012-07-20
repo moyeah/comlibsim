@@ -8,10 +8,16 @@ class Cluster
 {
 private:
   std::vector<Sensor> m_sensors;
+  std::vector<Sensor> m_sensors_int;  // Copy of sensors vector to integrate
 
   int    m_nb_act_sensors; // Nb of sensors to connect (selected)
   double m_act_bandwidth;  // Bandwidth used by sensors (selected)
   bool   m_scheduling;     // Need or not scheduling
+
+  // To integrate
+  int    m_nb_act_sensors_int; // Nb of sensors to connect (selected)
+  double m_act_bandwidth_int;  // Bandwidth used by sensors (selected)
+  bool   m_scheduling_int;     // Need or not scheduling
 
 public:
   class ComMap: public std::vector<std::vector<Sensor>::iterator>
@@ -33,16 +39,23 @@ public:
 
   virtual void add (const Sensor& sensor);
 
-  virtual void get_data (double *data);
-  virtual void get_rate (double *bandwidth);
+  virtual void init_int ();
 
-  virtual void set_data (double *data);
-  virtual void set_rate (double *bandwidth);
+  virtual void get_data     (double *data);
+  virtual void get_data_int (double *data);
+  virtual void get_rate     (double *rate);
+  virtual void get_rate_int (double *rate,
+                             double *position,
+                             double agv_bandwidth);
+
+  virtual void set_data     (double *data);
+  virtual void set_rate     (double *rate);
 
   virtual Sensor&       closest (const Position& position);
   virtual const Sensor& closest (const Position& position) const;
 
-  virtual ComMap map (const Position& position, double agv_bandwidth);
+  virtual ComMap map     (const Position& position, double agv_bandwidth);
+  virtual ComMap map_int (const Position& position, double agv_bandwidth);
 
   virtual void write (std::ostream& output = std::cout) const;
 };
