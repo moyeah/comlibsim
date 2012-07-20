@@ -133,8 +133,8 @@ void Cluster::get_rate_int (double *rate,
 
   this->map_int (position_int, agv_bandwidth);
   
-  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
-       i != m_sensors.end ();
+  for (std::vector<Sensor>::const_iterator i = m_sensors_int.begin ();
+       i != m_sensors_int.end ();
        i++)
   {
     rate[j] = i->rate ();
@@ -148,6 +148,19 @@ void Cluster::set_data (double *data)
 
   for (std::vector<Sensor>::iterator i = m_sensors.begin ();
        i != m_sensors.end ();
+       i++)
+  {
+    i->data (data[j]);
+    j++;
+  }
+}
+
+void Cluster::set_data_int (double *data)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::iterator i = m_sensors_int.begin ();
+       i != m_sensors_int.end ();
        i++)
   {
     i->data (data[j]);

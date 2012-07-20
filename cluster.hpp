@@ -49,6 +49,7 @@ public:
                              double agv_bandwidth);
 
   virtual void set_data     (double *data);
+  virtual void set_data_int (double *data);
   virtual void set_rate     (double *rate);
 
   virtual Sensor&       closest (const Position& position);
