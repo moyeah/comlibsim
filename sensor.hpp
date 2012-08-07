@@ -8,8 +8,8 @@ class Sensor: public Object
 {
 private:
   Accumulator m_accumulator;
-  ComRate     m_com_rate;
   Position    m_position;
+  ComRate     m_com_rate;
 
 public:
   Sensor (const Position& position,

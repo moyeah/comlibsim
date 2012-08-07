@@ -186,7 +186,7 @@ int main(int argc, char *argv[]) {
     
 
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);
-    c0->set_data(state+3);
+//    c0->set_data(state+3);
     
     
     t += delta_t;

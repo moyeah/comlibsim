@@ -77,8 +77,13 @@ int dynamics(double t,  const double *x0, double *deriv, void *param)
 
   c0.set_data_int(x0+3);
   
-#if 1  
-  c0.get_rate_int(deriv+3, x0, MAX_AV_BANDWIDTH);
+#if 1
+  c0.write ();
+  Position position (0.0, 0.0);  
+//  c0.map (position, MAX_AV_BANDWIDTH);
+  c0.map (position, 50.0);
+  c0.write ();
+//  c0.get_rate_int(deriv+3, x0, MAX_AV_BANDWIDTH);
 #else  
   for(int i=0; i< c0.nb_sensors(); ++i)
     if(x0[3+i]>0)

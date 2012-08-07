@@ -131,7 +131,7 @@ void Cluster::get_rate_int (double *rate,
   int j = 0;
   Position position_int (position[0], position[1]);
 
-  this->map_int (position_int, agv_bandwidth);
+ // this->map_int (position_int, agv_bandwidth);
   
   for (std::vector<Sensor>::const_iterator i = m_sensors_int.begin ();
        i != m_sensors_int.end ();
