@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall
+CFLAGS=-Wall -g
 LIBS=
 SRCS= accumulator.cpp \
       comrate.cpp \
@@ -12,17 +12,21 @@ SRCS= accumulator.cpp \
       test/test_position.cpp \
       test/test_sensor.cpp \
       test/test_cluster.cpp \
-      test/main.cpp
+      test2/sim_model.cpp \
+      test2/ode_solvers.cpp \
+      test2/sim_main.cpp
+#      test/main.cpp 
 OBJS=$(SRCS:.cpp=.o)
 PROG=comlibsim
 
-all: $(SRCS) $(PROG) clean
+all: $(SRCS) $(PROG)
 
 $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS)
 
-.c.o:
+
+.cpp.o:
 	$(CC) $(CFLAGS) $< -c -o $@ $(LIBS)
 
 clean:
-	rm -rf *.o *.out test/*.o test/*.out
+	rm -rf *.o *.out test/*.o test/*.out test2/*.o test2/*.out

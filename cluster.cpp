@@ -80,12 +80,30 @@ void Cluster::add (const Sensor& sensor)
   m_sensors.push_back (sensor);
 }
 
+void Cluster::init_int ()
+{
+  m_sensors_int = m_sensors;
+}
+
 void Cluster::get_data (double *data)
 {
   int j = 0;
 
   for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
        i != m_sensors.end ();
+       i++)
+  {
+    data[j] = i->data ();
+    j++;
+  }
+}
+
+void Cluster::get_data_int (double *data)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::const_iterator i = m_sensors_int.begin ();
+       i != m_sensors_int.end ();
        i++)
   {
     data[j] = i->data ();
@@ -106,12 +124,43 @@ void Cluster::get_rate (double *rate)
   }
 }
 
+void Cluster::get_rate_int (double *rate,
+                            const double *position,
+                            double agv_bandwidth)
+{
+  int j = 0;
+  Position position_int (position[0], position[1]);
+
+  this->map_int (position_int, agv_bandwidth);
+  
+  for (std::vector<Sensor>::const_iterator i = m_sensors_int.begin ();
+       i != m_sensors_int.end ();
+       i++)
+  {
+    rate[j] = i->rate ();
+    j++;
+  }
+}
+  
 void Cluster::set_data (double *data)
 {
   int j = 0;
 
   for (std::vector<Sensor>::iterator i = m_sensors.begin ();
        i != m_sensors.end ();
+       i++)
+  {
+    i->data (data[j]);
+    j++;
+  }
+}
+
+void Cluster::set_data_int (const double *data)
+{
+  int j = 0;
+
+  for (std::vector<Sensor>::iterator i = m_sensors_int.begin ();
+       i != m_sensors_int.end ();
        i++)
   {
     i->data (data[j]);
@@ -178,6 +227,29 @@ Cluster::ComMap Cluster::map (const Position& position,
          i++)
     {
       (*i)->rate (((*i)->rate () * agv_bandwidth) / m_act_bandwidth);
+    }
+  }
+
+  return selected;
+}
+
+Cluster::ComMap Cluster::map_int (const Position& position,
+                                  double agv_bandwidth)
+{
+  Cluster::ComMap selected; // Vector of sensors to connect
+
+  m_act_bandwidth_int = selected.select (m_sensors_int, position);
+  m_nb_act_sensors_int = static_cast<int> (selected.size ());
+  m_scheduling_int = ((agv_bandwidth < m_act_bandwidth_int) &&
+                  (m_nb_act_sensors_int > 0));
+
+  if (m_scheduling_int)
+  {
+    for (ComMap::iterator i = selected.begin ();
+         i != selected.end ();
+         i++)
+    {
+      (*i)->rate (((*i)->rate () * agv_bandwidth) / m_act_bandwidth_int);
     }
   }
 

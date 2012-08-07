@@ -25,7 +25,7 @@ public:
 
   virtual double get_x () const;
   virtual double get_y () const;
-
+  
   virtual double distance_to (const Position& position) const;
 
   virtual void write    (std::ostream& output = std::cout) const;
