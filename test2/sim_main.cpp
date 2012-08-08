@@ -131,6 +131,7 @@ int main(int argc, char *argv[]) {
   state[2] = 0;
   c0->get_data(state+3);    
 
+c0->write ();
 
   //output filename
   fp = fopen("traj.txt","w"); 
