@@ -99,6 +99,8 @@ double ComRate::rate_at (double distance) const
 double ComRate::rate_at (const Position& position) const
 {
   double distance = m_reference->distance_to (position);
+//double distance = m_reference->distance_to (Position (0.0, 0.0));
+//double distance = 10.0;
 
   return this->rate_at (distance);
 }

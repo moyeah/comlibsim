@@ -131,7 +131,7 @@ void Cluster::get_rate_int (double *rate,
   int j = 0;
   Position position_int (position[0], position[1]);
 
- // this->map_int (position_int, agv_bandwidth);
+  this->map_int (position_int, agv_bandwidth);
   
   for (std::vector<Sensor>::const_iterator i = m_sensors_int.begin ();
        i != m_sensors_int.end ();
@@ -236,24 +236,24 @@ Cluster::ComMap Cluster::map (const Position& position,
 Cluster::ComMap Cluster::map_int (const Position& position,
                                   double agv_bandwidth)
 {
-  Cluster::ComMap selected; // Vector of sensors to connect
+  Cluster::ComMap selected_int; // Vector of sensors to connect
 
-  m_act_bandwidth_int = selected.select (m_sensors_int, position);
-  m_nb_act_sensors_int = static_cast<int> (selected.size ());
+  m_act_bandwidth_int = selected_int.select (m_sensors_int, position);
+  m_nb_act_sensors_int = static_cast<int> (selected_int.size ());
   m_scheduling_int = ((agv_bandwidth < m_act_bandwidth_int) &&
                   (m_nb_act_sensors_int > 0));
 
   if (m_scheduling_int)
   {
-    for (ComMap::iterator i = selected.begin ();
-         i != selected.end ();
+    for (ComMap::iterator i = selected_int.begin ();
+         i != selected_int.end ();
          i++)
     {
       (*i)->rate (((*i)->rate () * agv_bandwidth) / m_act_bandwidth_int);
     }
   }
 
-  return selected;
+  return selected_int;
 }
 
 void Cluster::write (std::ostream& output) const

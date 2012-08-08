@@ -67,4 +67,10 @@ void test_cluster ()
   p2.write_ln ();
   c0.map (p2, 200.0);
   c0.write ();
+
+  write_ln ("Copy cluster");
+  c0.init_int ();
+  Position p3 (0.0, 0.0);
+  c0.map_int (p3, 200.0);
+  c0.write ();
 }

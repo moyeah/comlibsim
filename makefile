@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -g
+CFLAGS=-Wall -ggdb
 LIBS=
 SRCS= accumulator.cpp \
       comrate.cpp \
