@@ -1,6 +1,11 @@
 #ifndef __H_POSITION__
 #define __H_POSITION__
 
+#include <cmath>
+#include <iostream>
+
+#include "object.hpp"
+
 namespace ComLibSim
 {
 

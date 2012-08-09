@@ -1,6 +1,13 @@
 #ifndef __H_SENSOR__
 #define __H_SENSOR__
 
+#include <iostream>
+
+#include "object.hpp"
+#include "accumulator.hpp"
+#include "comrate.hpp"
+#include "position.hpp"
+
 namespace ComLibSim
 {
 

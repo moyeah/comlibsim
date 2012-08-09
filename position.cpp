@@ -1,7 +1,3 @@
-#include <cmath>
-#include <iostream>
-
-#include "object.hpp"
 #include "position.hpp"
 
 namespace ComLibSim

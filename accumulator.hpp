@@ -1,6 +1,10 @@
 #ifndef __H_ACCUMULATOR__
 #define __H_ACCUMULATOR__
 
+#include <iostream>
+
+#include "object.hpp"
+
 namespace ComLibSim
 {
 

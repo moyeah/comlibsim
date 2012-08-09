@@ -40,13 +40,13 @@ void configureVF(VF &);
 
 #include "ode_solvers.hpp"
 
-#include <iostream>
-#include <vector>
-#include "../object.hpp"
-#include "../accumulator.hpp"
-#include "../comrate.hpp"
-#include "../position.hpp"
-#include "../sensor.hpp"
+//#include <iostream>
+//#include <vector>
+//#include "../object.hpp"
+//#include "../accumulator.hpp"
+//#include "../comrate.hpp"
+//#include "../position.hpp"
+//#include "../sensor.hpp"
 #include "../cluster.hpp"
 
 int dynamics(double t, const double *x0, double *deriv, void *param);
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
   state[2] = 0;
   c0->get_data(state+3);    
 
-c0->write ();
+//c0->write ();
 
   //output filename
   fp = fopen("traj.txt","w"); 

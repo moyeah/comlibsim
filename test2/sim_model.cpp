@@ -2,17 +2,15 @@
 #include <cstdio>
 
 //isto não deveria ser necessário
-#include <iostream>
-#include <vector>
-
-//nota: adicionar regra .cpp.o à makefile (para ter o -Wall)
+//#include <iostream>
+//#include <vector>
 
 //não deveria ser necessário adicionar todos os header files
-#include "../object.hpp"
-#include "../accumulator.hpp"
-#include "../comrate.hpp"
-#include "../position.hpp"
-#include "../sensor.hpp"
+//#include "../object.hpp"
+//#include "../accumulator.hpp"
+//#include "../comrate.hpp"
+//#include "../position.hpp"
+//#include "../sensor.hpp"
 #include "../cluster.hpp"
 
 

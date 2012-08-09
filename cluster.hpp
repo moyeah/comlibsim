@@ -1,6 +1,15 @@
 #ifndef __H_CLUSTER__
 #define __H_CLUSTER__
 
+#include <iostream>
+#include <vector>
+
+#include "object.hpp"
+#include "accumulator.hpp"
+#include "comrate.hpp"
+#include "position.hpp"
+#include "sensor.hpp"
+
 namespace ComLibSim
 {
 

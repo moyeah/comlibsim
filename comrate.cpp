@@ -1,8 +1,3 @@
-#include <cmath>
-#include <iostream>
-
-#include "object.hpp"
-#include "position.hpp"
 #include "comrate.hpp"
 
 namespace ComLibSim
@@ -18,10 +13,11 @@ ComRate::ComRate ():
 ComRate::ComRate (const Position& reference,
                   double max_rate,
                   double act_rate):
-  m_reference (&reference),
+//  m_reference (&reference),
   m_max_rate (max_rate),
   m_act_rate (act_rate)
 {
+  m_reference = &reference;
 }
 
 ComRate::ComRate (const ComRate& com_rate):

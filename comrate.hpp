@@ -1,10 +1,14 @@
 #ifndef __H_COMRATE__
 #define __H_COMRATE__
 
+#include <cmath>
+#include <iostream>
+
+#include "object.hpp"
+#include "position.hpp"
+
 namespace ComLibSim
 {
-
-class Position;
 
 class ComRate: public Object
 {
@@ -33,7 +37,6 @@ public:
   virtual bool operator <= (const ComRate& com_rate) const;
 
   virtual void set_act_rate (double act_rate);
-
   virtual double get_max_rate () const;
   virtual double get_act_rate () const;
 

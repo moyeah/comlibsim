@@ -1,6 +1,3 @@
-#include <iostream>
-
-#include "object.hpp"
 #include "accumulator.hpp"
 
 namespace ComLibSim

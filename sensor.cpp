@@ -1,9 +1,3 @@
-#include <iostream>
-
-#include "object.hpp"
-#include "accumulator.hpp"
-#include "comrate.hpp"
-#include "position.hpp"
 #include "sensor.hpp"
 
 namespace ComLibSim
