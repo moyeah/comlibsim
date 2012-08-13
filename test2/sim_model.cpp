@@ -1,16 +1,6 @@
 #include <cmath>
 #include <cstdio>
 
-//isto não deveria ser necessário
-//#include <iostream>
-//#include <vector>
-
-//não deveria ser necessário adicionar todos os header files
-//#include "../object.hpp"
-//#include "../accumulator.hpp"
-//#include "../comrate.hpp"
-//#include "../position.hpp"
-//#include "../sensor.hpp"
 #include "../cluster.hpp"
 
 
@@ -43,11 +33,6 @@ Cluster* init_cluster()
   Sensor s2 (Position (0.0, 100.0), 50.0, 500.0);
   Sensor s3 (Position (100.0, 100.0), 50.0, 500.0);
 
-  s0.write_ln ();
-  s1.write_ln ();
-  s2.write_ln ();
-  s3.write_ln ();
-
   c0.add (s0);
   c0.add (s1);
   c0.add (s2);
@@ -55,12 +40,6 @@ Cluster* init_cluster()
   
   printf("%d sensors\n", c0.nb_sensors());
 
-  c0.write ();
-
-printf ("\n\nClosest sensor: ");
-c0.closest (Position (0.0, 0.0)).write_ln ();
-printf ("\n\n");
-  
   return &c0;
 }
 
@@ -86,12 +65,7 @@ int dynamics(double t,  const double *x0, double *deriv, void *param)
   c0.set_data_int(x0+3);
   
 #if 1
-c0.closest (Position (0.0, 0.0)).write_ln ();
-//c0.write ();
-//Sensor my_sensor = c0.closest (Position (0.0, 0.0));
-//my_sensor.rate_at (Position (0.0, 0.0));
-
-//  c0.get_rate_int(deriv+3, x0, MAX_AV_BANDWIDTH);
+  c0.get_rate_int(deriv+3, x0, MAX_AV_BANDWIDTH);
 #else  
   for(int i=0; i< c0.nb_sensors(); ++i)
     if(x0[3+i]>0)

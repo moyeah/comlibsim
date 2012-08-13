@@ -8,7 +8,7 @@ Sensor::Sensor (const Position& position,
                 double data):
   m_accumulator(Accumulator (data)),
   m_position(position),
-  m_com_rate(ComRate (m_position, max_rate))
+  m_com_rate(ComRate (position, max_rate))
 {
 }
 

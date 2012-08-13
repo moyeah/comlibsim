@@ -13,7 +13,7 @@ ComRate::ComRate ():
 ComRate::ComRate (const Position& reference,
                   double max_rate,
                   double act_rate):
-  m_reference (&reference),
+  m_reference (new Position (reference)),
   m_max_rate (max_rate),
   m_act_rate (act_rate)
 {
