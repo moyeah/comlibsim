@@ -30,6 +30,8 @@ public:
 
   virtual double get_x () const;
   virtual double get_y () const;
+
+  virtual void get_xy (double *xy) const;
   
   virtual double distance_to (const Position& position) const;
 

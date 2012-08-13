@@ -12,6 +12,13 @@ Sensor::Sensor (const Position& position,
 {
 }
 
+Sensor::Sensor (const Sensor& sensor):
+  m_accumulator(sensor.m_accumulator),
+  m_position(sensor.m_position),
+  m_com_rate(sensor.m_com_rate)
+{
+}
+
 Sensor::~Sensor ()
 {
 }
@@ -41,6 +48,12 @@ void Sensor::data (double data)
 void Sensor::rate (double rate)
 {
   m_com_rate.set_act_rate (rate);
+}
+
+void Sensor::get_xy (double *xy) const
+{
+  xy[0] = m_position.get_x ();
+  xy[1] = m_position.get_y ();
 }
 
 bool Sensor::is_empty () const

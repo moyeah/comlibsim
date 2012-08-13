@@ -26,17 +26,17 @@ normalizeRadian(double a)
   
 Cluster* init_cluster()
 {
-
-  
   Sensor s0 (Position (0.0, 0.0), 50.0, 500.0);
   Sensor s1 (Position (100.0, 0.0), 50.0, 500.0);
   Sensor s2 (Position (0.0, 100.0), 50.0, 500.0);
   Sensor s3 (Position (100.0, 100.0), 50.0, 500.0);
+  Sensor s4 (Position (100.0, 100.0), 50.0, 500.0);
 
   c0.add (s0);
   c0.add (s1);
   c0.add (s2);
   c0.add (s3);
+  c0.add (s4);
   
   printf("%d sensors\n", c0.nb_sensors());
 
@@ -87,6 +87,34 @@ void compute_control(const double *state, double * const input)
   //Caso contrário, continua a viajar na direção do sensor.
   //Exemplo: 
   
+#if 1
+  Sensor* closest_sensor;
+  double xy[2];
+
+  closest_sensor = new Sensor(c0.closest (Position (state[0], state[1])));
+
+  if (c0.scheduling () || c0.act_bandwidth () == MAX_AV_BANDWIDTH)
+  {
+    // STOP vehicle
+    input[0] = 0;
+    input[1] = 0;
+  }
+  else
+  {
+    closest_sensor->get_xy (xy);
+
+    double x = xy[0] - state[0];
+    double y = xy[1] - state[1];
+    double norm = std::sqrt(x * x + y * y);
+    double angle = std::atan2(y, x);
+        
+    //regular a orientação do veículo para essa direção
+    double err=normalizeRadian(angle-state[1]);
+    input[0]=1;
+    input[1]=20*err;
+  }
+
+/*
 #if 0  
   double xy[2];
   sensor = sensors->getClosest();
@@ -111,6 +139,7 @@ void compute_control(const double *state, double * const input)
     input[0]=1;
     input[1]=20*err;
   }  
+*/
 
 #else
 

@@ -40,13 +40,6 @@ void configureVF(VF &);
 
 #include "ode_solvers.hpp"
 
-//#include <iostream>
-//#include <vector>
-//#include "../object.hpp"
-//#include "../accumulator.hpp"
-//#include "../comrate.hpp"
-//#include "../position.hpp"
-//#include "../sensor.hpp"
 #include "../cluster.hpp"
 
 int dynamics(double t, const double *x0, double *deriv, void *param);

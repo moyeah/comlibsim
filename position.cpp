@@ -66,6 +66,12 @@ double Position::get_y () const
   return m_y;
 }
 
+void Position::get_xy (double *xy) const
+{
+  xy[0] = this->get_x ();
+  xy[1] = this->get_y ();
+}
+
 /*
 void Position::set (double x, double y)
 {

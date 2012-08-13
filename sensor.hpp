@@ -22,15 +22,18 @@ public:
   Sensor (const Position& position,
           double max_rate,
           double data);
+  Sensor (const Sensor& sensor);
   virtual ~Sensor ();
 
-  virtual Object* object  () const;
+  virtual Object* object () const;
 
   virtual bool operator == (const Sensor& sensor) const;
   virtual bool operator != (const Sensor& sensor) const;
 
   virtual void data (double data);
   virtual void rate (double rate);
+
+  virtual void get_xy (double *xy) const;
 
   virtual bool   is_empty    () const;
   virtual double data        () const;
