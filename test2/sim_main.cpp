@@ -24,6 +24,9 @@
 //interval between samples of the generated series
 #define STEP_SIZE 0.1
 
+//configuration filepath
+#define FILEPATH "xml/cluster.xml"
+
 #include <cstring>
 #include <cstdio>
 #include <cmath>
@@ -41,6 +44,7 @@ void configureVF(VF &);
 #include "ode_solvers.hpp"
 
 #include "../cluster.hpp"
+#include "../parser.hpp"
 
 int dynamics(double t, const double *x0, double *deriv, void *param);
 
@@ -65,13 +69,20 @@ int main(int argc, char *argv[]) {
   unsigned int horizon_MR=1;
   int n_dim;
   
-	fpu_control_t cw;
+  fpu_control_t cw;
   _FPU_GETCW(cw);
   cw &= ~_FPU_EXTENDED;
   cw |= _FPU_DOUBLE;
   _FPU_SETCW(cw);
 
   Cluster *c0 = init_cluster();
+
+/* Test parser */
+  Parser parser (FILEPATH);
+
+  parser.to_cluster (*c0);
+
+/* END Test parser*/
 
 #ifdef USE_VF  
   char undef;    

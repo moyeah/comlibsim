@@ -1,11 +1,13 @@
 CC=g++
 CFLAGS=-Wall -g
 LIBS=
+PKG_CONFIG=`pkg-config libxml++-2.6 --cflags --libs`
 SRCS= accumulator.cpp \
       comrate.cpp \
       position.cpp \
       sensor.cpp \
       cluster.cpp \
+      parser.cpp \
       test2/sim_model.cpp \
       test2/ode_solvers.cpp \
       test2/sim_main.cpp
@@ -22,11 +24,10 @@ PROG=comlibsim
 all: $(SRCS) $(PROG)
 
 $(PROG): $(OBJS)
-	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS)
-
+	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS) $(PKG_CONFIG)
 
 .cpp.o:
-	$(CC) $(CFLAGS) $< -c -o $@ $(LIBS)
+	$(CC) $(CFLAGS) $< -c -o $@ $(LIBS) $(PKG_CONFIG)
 
 clean:
 	rm -rf *.o *.out test/*.o test/*.out test2/*.o test2/*.out $(PROG)

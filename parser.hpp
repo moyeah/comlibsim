@@ -12,24 +12,28 @@ namespace ComLibSim
 
 class Parser: xmlpp::DomParser
 {
+private:
+  std::string m_filepath;
+
 public:
   Parser (std::string filepath = "cluster.xml");
   virtual ~Parser ();
 
   virtual bool check_parser () const;
 
-  virtual int get_sensors (const xmlpp::Node* node,
-                           Cluster& cluster
-                           std::ostream output = std::cout) const;
+  virtual int get_node (const xmlpp::Node* node,
+                        Cluster& cluster,
+			unsigned int indent = 0,
+                        std::ostream& output = std::cout) const;
 
   virtual int to_cluster (Cluster& cluster,
                           std::ostream& output = std::cout) const;
 
-  virtual void write_indent (std::ostream& output = std::cout,
-                             unsigned int indent = 0) const;
-  virtual void write        (Glib::ustring& text,
+  virtual void write_indent (unsigned int indent = 0,
                              std::ostream& output = std::cout) const;
-  virtual void write_ln     (Glib::ustring& text,
+  virtual void write        (const Glib::ustring& text,
+                             std::ostream& output = std::cout) const;
+  virtual void write_ln     (const Glib::ustring& text,
                              std::ostream& output = std::cout) const;
 };
 
