@@ -80,7 +80,9 @@ int main(int argc, char *argv[]) {
 /* Test parser */
   Parser parser (FILEPATH);
 
-  parser.to_cluster (*c0);
+  std::ofstream log ("log/xml.log");
+
+  parser.to_cluster (*c0, log);
 
 /* END Test parser*/
 

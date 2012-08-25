@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- XML Example file of cluster configuration -->
-<Cluster name="Example Cluster">
+<Cluster description="Example Cluster">
   <Sensor tag="Sensor one">
     <Position x="0.0" y="0.0"/>
     <Rate max_rate="50.0"/>

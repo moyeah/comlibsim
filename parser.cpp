@@ -54,43 +54,43 @@ int Parser::get_node (const xmlpp::Node* node,
 
   if (!text_node && !comment_node && !node_name.empty ())
   {
-    this->write_indent (indent);
+    this->write_indent (indent, output);
 
     const Glib::ustring namespace_prefix = node->get_namespace_prefix ();
 
-    this->write ("Node name = ");
+    this->write ("Node name = ", output);
 
     if (namespace_prefix.empty ())
-      this->write_ln (node_name);
+      this->write_ln (node_name, output);
     else
-      this->write_ln (namespace_prefix + ":" + node_name);
+      this->write_ln (namespace_prefix + ":" + node_name, output);
   }
   else if (text_node)
   {
-    this->write_indent (indent);
-    this->write_ln ("Text Node");
+    this->write_indent (indent, output);
+    this->write_ln ("Text Node", output);
   }
 
   if (text_node)
   {
-    this->write_indent (indent);
-    this->write_ln ("text = \"" + text_node->get_content () + "\"");
+    this->write_indent (indent, output);
+    this->write_ln ("text = \"" + text_node->get_content () + "\"", output);
   }
   else if (comment_node)
   {
-    this->write_indent (indent);
-    this->write_ln ("comment = " + comment_node->get_content ());
+    this->write_indent (indent, output);
+    this->write_ln ("comment = " + comment_node->get_content (), output);
   }
   else if (content_node)
   {
-    this->write_indent (indent);
-    this->write_ln ("content = " + content_node->get_content ());
+    this->write_indent (indent, output);
+    this->write_ln ("content = " + content_node->get_content (), output);
   }
   else if (const xmlpp::Element* element_node =
                                  dynamic_cast<const xmlpp::Element*>(node))
   {
-    this->write_indent (indent);
-    this->write_ln ("  line = " + node->get_line ());
+    this->write_indent (indent, output);
+    this->write_ln ("  line = " + node->get_line (), output);
 
     const xmlpp::Element::AttributeList& attributes =
                                          element_node->get_attributes ();
@@ -101,28 +101,28 @@ int Parser::get_node (const xmlpp::Node* node,
 	 ++iter)
     {
       const xmlpp::Attribute* attribute = *iter;
-      this->write_indent (indent);
+      this->write_indent (indent, output);
 
       const Glib::ustring namespace_prefix =
                           attribute->get_namespace_prefix ();
 
-      this->write ("  Attribute ");
+      this->write ("  Attribute ", output);
       if (namespace_prefix.empty ())
         this->write_ln ("\"" +
                         attribute->get_name () +
                         "\" = " +
-                        attribute->get_value ());
+                        attribute->get_value (), output);
       else
         this->write_ln (namespace_prefix +
                         ":" +
                         attribute->get_name () +
                         " = " +
-                        attribute->get_value ());
+                        attribute->get_value (), output);
     }
 
     const xmlpp::Attribute* attribute = element_node->get_attribute ("title");
     if (attribute)
-      this->write_ln ("Title \"" + attribute->get_value ());
+      this->write_ln ("Title \"" + attribute->get_value (), output);
   }
 
   if (!content_node)
@@ -133,14 +133,15 @@ int Parser::get_node (const xmlpp::Node* node,
          iter != list.end ();
          ++iter)
     {
-      this->get_node (*iter, cluster, indent + 2);
+      this->get_node (*iter, cluster, indent + 2, output);
     }
   }
 
   return 0;
 }
 
-int Parser::to_cluster (Cluster& cluster, std::ostream& output) const
+int Parser::to_cluster (Cluster& cluster,
+		        std::ostream& output) const
 {
   if (!this->check_parser ())
   {
@@ -153,7 +154,7 @@ int Parser::to_cluster (Cluster& cluster, std::ostream& output) const
 
   const xmlpp::Node* root_node = this->get_document ()->get_root_node ();
 
-  this->get_node (root_node, cluster);
+  this->get_node (root_node, cluster, 0, output);
 
   nb_sensors_added++;
 

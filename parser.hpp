@@ -4,6 +4,7 @@
 
 #include <libxml++/libxml++.h>
 #include <iostream>
+#include <fstream>
 
 #include "cluster.hpp"
 
@@ -13,7 +14,7 @@ namespace ComLibSim
 class Parser: xmlpp::DomParser
 {
 private:
-  std::string m_filepath;
+  std::string  m_filepath;
 
 public:
   Parser (std::string filepath = "cluster.xml");
@@ -23,7 +24,7 @@ public:
 
   virtual int get_node (const xmlpp::Node* node,
                         Cluster& cluster,
-			unsigned int indent = 0,
+                        unsigned int indent = 0,
                         std::ostream& output = std::cout) const;
 
   virtual int to_cluster (Cluster& cluster,
