@@ -25,7 +25,11 @@
 #define STEP_SIZE 0.1
 
 //xml filepath
-#define FILEPATH "xml/cluster.xml"
+#define CLUSTER_CONF "config/cluster.xml"
+
+//log files
+#define SIM_LOG "log/sim.log" //Simulation
+#define XML_LOG "log/xml.log" //XML import
 
 #include <cstring>
 #include <cstdio>
@@ -78,9 +82,9 @@ int main(int argc, char *argv[]) {
   Cluster *c0 = init_cluster();
 
 /* Test parser */
-  Parser parser (FILEPATH);
+  Parser parser (CLUSTER_CONF);
 
-  std::ofstream log ("log/xml.log");
+  std::ofstream log (XML_LOG);
 
   parser.to_cluster (*c0, log);
 
@@ -140,7 +144,7 @@ int main(int argc, char *argv[]) {
   c0->get_data(state+3);    
 
   //output filename
-  fp = fopen("traj.txt","w"); 
+  fp = fopen(SIM_LOG,"w"); 
   
   printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
   printf("n_dim=%u; horizon_MR=%u\n",n_dim,horizon_MR);  

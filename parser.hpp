@@ -1,3 +1,15 @@
+/*
+ *  parser.hpp
+ *
+ *  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
+ *  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
+ *
+ *  Autor:
+ *    Daniel Sousa  <da.arada@gmail.com>
+ *
+ *  Orientador:
+ *    Jorge Estrela  <jes@isep.ipp.pt>
+ */
 
 #ifndef __H_PARSER__
 #define __H_PARSER__
@@ -19,7 +31,7 @@ private:
   std::string  m_filepath;
 
 public:
-  Parser (std::string filepath = "cluster.xml");
+  Parser (std::string filepath = "config/cluster.xml");
   virtual ~Parser ();
 
   virtual int to_cluster (Cluster& cluster,

@@ -1,3 +1,16 @@
+/*
+ *  sensor.cpp
+ *
+ *  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
+ *  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
+ *
+ *  Autor:
+ *    Daniel Sousa  <da.arada@gmail.com>
+ *
+ *  Orientador:
+ *    Jorge Estrela  <jes@isep.ipp.pt>
+ */
+
 #include "sensor.hpp"
 
 namespace ComLibSim

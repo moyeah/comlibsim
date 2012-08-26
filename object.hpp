@@ -1,3 +1,16 @@
+/*
+ *  object.hpp
+ *
+ *  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
+ *  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
+ *
+ *  Autor:
+ *    Daniel Sousa  <da.arada@gmail.com>
+ *
+ *  Orientador:
+ *    Jorge Estrela  <jes@isep.ipp.pt>
+ */
+
 #ifndef __H_OBJECT__
 #define __H_OBJECT__
 
