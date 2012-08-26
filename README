@@ -1,9 +1,128 @@
-class Object
-|
-|-> class Sensor
-|
-|-> class Accumulator
-|
-|-> class ComRate
-|
-|-> class Position
+/*
+ *  README
+ *
+ *  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
+ *  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
+ *
+ *  Autor:
+ *    Daniel Sousa  <da.arada@gmail.com>
+ *
+ *  Orientador:
+ *    Jorge Estrela  <jes@isep.ipp.pt>
+ */
+
+===============================================
+  ComLibSim - Communication Library Simulator
+===============================================
+
+What is it?
+-----------
+
+The ComLibSim is a library to simulate the comunication between sensors,
+including the bandwidth scheduling. It has been designed to be apart of
+a simulation mecanism to test deferent scenarios of communication.
+All source code is developed in C++.
+
+
+The last version
+----------------
+The source code is availabe in git "format". For further details please
+consult https://github.com/moyeah/comlibsim.git.
+To clone repository run "git clone https://github.com/moyeah/comlibsim.git"
+
+
+Contacts
+--------
+If you want to report bugs, get more information or any other subject please
+email Daniel Sousa <da.arada@gmail.com>.
+
+
+Classes and inheritances
+------------------------
+There are 5(five) classes, Sensor, Accumulator, ComRate, Position and Cluster
+that derived from the Object to future development.
+The relations are presented bellow:
+
+  class Object
+  |-> class Accumulator
+  |-> class Position
+  |-> class ComRate
+  |-> class Sensor
+  |-> class Cluster
+
+  class Accumulator
+  -----------------
+  This class is an accumulator that is use to represent the data available 
+  in a Sensor.
+
+  class Position
+  --------------
+  This class represents a position, x and y coordenates of a point in the
+  plane. It's used to represent the location of a Sensor in the world.
+
+  class ComRate
+  -------------
+  This class represents the communication rate and is able to calculate the
+  rate in deferente distances. It's used to represent the Sensor communication
+  map in the world.
+
+  class Sensor
+  ------------
+  This class is the representation of a Sensor. It has the previous 3(three)
+  classes.
+
+  class Cluster
+  -------------
+  This class represents the world with all available Sensors and respective 
+  caracteristics. The bandwidth scheduling mecanism is available in this 
+  class either for discrite simulation either for continuous simulation.
+
+In order to import configurations from xml file, there's a class Parser to 
+manage all the required tasks.
+
+  class Parser
+  ------------
+  This class was develop to able the separation and frendly use of diferent
+  cluster configurations. It enable the import of configuration xml files.
+  It's used to create a Cluster from a external xml file.
+
+
+Compile
+-------
+To compile from source code you shall use GCC with support to C++.
+All source code is developed under C++ Standard Library, with the exception 
+of class Parser.
+The class Parser makes use of "libxml++" that is a C++ wrapper for the 
+"libxml" XML parser library.
+To compile with class Parser you shall use the pkg-config.pc file to make it 
+easy. For instance, the following command shall provide the necessary compiler 
+options "pkg-config libxml++-2.6 --cflags --libs".
+The easy way is to make use of the GNU Make tool.
+
+  Example of Makefile
+  -------------------
+  CC=g++
+  CFLAGS=-Wall
+  LIBS=
+  PKG_CONFIG=`pkg-config libxml++-2.6 --cflags --libs`
+  SRCS= accumulator.cpp \
+        comrate.cpp \
+        position.cpp \
+        sensor.cpp \
+        cluster.cpp \
+        parser.cpp \
+        (file with main function)
+  OBJS=$(SRCS:.cpp=.o)
+  PROG=comlibsim
+
+  all: $(SRCS) $(PROG)
+
+  $(PROG): $(OBJS)
+           $(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS) $(PKG_CONFIG)
+
+  .cpp.o:
+          $(CC) $(CFLAGS) $< -c -o $@ $(LIBS) $(PKG_CONFIG)
+  -------------------
+
+Use
+---
