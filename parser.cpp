@@ -6,165 +6,75 @@ namespace ComLibSim
 Parser::Parser (std::string filepath):
   m_filepath (filepath)
 {
-  #ifdef LIBXMLCPP_EXCEPTIONS_ENABLE
-  try
-  {
-  #endif
-
-    this->set_substitute_entities ();
-    this->parse_file (filepath);
-
-  #ifdef LIBXMLCPP_EXCEPTIONS_ENABLE
-  }
-  catch (const std::exception& ex)
-  {
-    this->write_ln ("Exception caught: " + ex.what ());
-  }
-  #endif
 }
 
 Parser::~Parser ()
 {
 }
 
-bool Parser::check_parser () const
-{
-  if (this)
-    return true;
-
-  return false;
-}
-
-int Parser::get_node (const xmlpp::Node* node,
-                      Cluster& cluster,
-		      unsigned int indent,
-                      std::ostream& output) const
-{
-  const xmlpp::ContentNode* content_node =
-                         dynamic_cast<const xmlpp::ContentNode*>(node);
-  const xmlpp::TextNode* text_node =
-                         dynamic_cast<const xmlpp::TextNode*>(node);
-  const xmlpp::CommentNode* comment_node =
-                         dynamic_cast<const xmlpp::CommentNode*>(node);
-
-  if (text_node && text_node->is_white_space ())
-    return -1;
-
-  const Glib::ustring node_name = node->get_name ();
-
-  if (!text_node && !comment_node && !node_name.empty ())
-  {
-    this->write_indent (indent, output);
-
-    const Glib::ustring namespace_prefix = node->get_namespace_prefix ();
-
-    this->write ("Node name = ", output);
-
-    if (namespace_prefix.empty ())
-      this->write_ln (node_name, output);
-    else
-      this->write_ln (namespace_prefix + ":" + node_name, output);
-  }
-  else if (text_node)
-  {
-    this->write_indent (indent, output);
-    this->write_ln ("Text Node", output);
-  }
-
-  if (text_node)
-  {
-    this->write_indent (indent, output);
-    this->write_ln ("text = \"" + text_node->get_content () + "\"", output);
-  }
-  else if (comment_node)
-  {
-    this->write_indent (indent, output);
-    this->write_ln ("comment = " + comment_node->get_content (), output);
-  }
-  else if (content_node)
-  {
-    this->write_indent (indent, output);
-    this->write_ln ("content = " + content_node->get_content (), output);
-  }
-  else if (const xmlpp::Element* element_node =
-                                 dynamic_cast<const xmlpp::Element*>(node))
-  {
-    this->write_indent (indent, output);
-    this->write_ln ("  line = " + node->get_line (), output);
-
-    const xmlpp::Element::AttributeList& attributes =
-                                         element_node->get_attributes ();
-
-    xmlpp::Element::AttributeList::const_iterator iter;
-    for (iter = attributes.begin ();
-         iter != attributes.end ();
-	 ++iter)
-    {
-      const xmlpp::Attribute* attribute = *iter;
-      this->write_indent (indent, output);
-
-      const Glib::ustring namespace_prefix =
-                          attribute->get_namespace_prefix ();
-
-      this->write ("  Attribute ", output);
-      if (namespace_prefix.empty ())
-        this->write_ln ("\"" +
-                        attribute->get_name () +
-                        "\" = " +
-                        attribute->get_value (), output);
-      else
-        this->write_ln (namespace_prefix +
-                        ":" +
-                        attribute->get_name () +
-                        " = " +
-                        attribute->get_value (), output);
-    }
-
-    const xmlpp::Attribute* attribute = element_node->get_attribute ("title");
-    if (attribute)
-      this->write_ln ("Title \"" + attribute->get_value (), output);
-  }
-
-  if (!content_node)
-  {
-    xmlpp::Node::NodeList list = node->get_children ();
-
-    for (xmlpp::Node::NodeList::iterator iter = list.begin ();
-         iter != list.end ();
-         ++iter)
-    {
-      this->get_node (*iter, cluster, indent + 2, output);
-    }
-  }
-
-  return 0;
-}
-
 int Parser::to_cluster (Cluster& cluster,
 		        std::ostream& output) const
 {
-  if (!this->check_parser ())
+
+  static int nb_sensors_imported = 0;
+
+  #ifdef LIBXMLCPP_EXCEPTIONS_ENABLE
+  try
   {
-    this->write_ln ("Error in the parser importing file: \"" +
-                    m_filepath + "\"");
+  #endif
+  xmlpp::DomParser parser (m_filepath, false);
+  if (parser)
+  {
+    const xmlpp::Node* root_node = parser.get_document ()->get_root_node ();
+
+    xmlpp::Node::NodeList sensors_list =
+                            root_node->get_children ("Sensor");
+
+    xmlpp::Node::NodeList::iterator sensor_iter;
+    for (sensor_iter = sensors_list.begin ();
+         sensor_iter != sensors_list.end ();
+         sensor_iter++)
+    {
+      const xmlpp::Element* sensor_element =
+                              dynamic_cast<const xmlpp::Element*>(*sensor_iter);
+
+      double x = Glib::Ascii::strtod (
+                   sensor_element->get_attribute_value ("x"));
+      double y = Glib::Ascii::strtod (
+                   sensor_element->get_attribute_value ("y"));
+      double max_rate = Glib::Ascii::strtod (
+                          sensor_element->get_attribute_value ("max_rate"));
+      double data = Glib::Ascii::strtod (
+                      sensor_element->get_attribute_value ("data"));
+
+      cluster.add (Sensor (Position (x, y), max_rate, data));
+
+      nb_sensors_imported++;
+    }
+  }
+  #ifdef LIBXMLCPP_EXCEPTIONS_ENABLE
+  }
+  catch (const std::exception& ex)
+  {
+    std::cout << "Exception caught: " << ex.what () << std::endl;
     return -1;
   }
+  #endif
 
-  int nb_sensors_added = 0;
+  if (nb_sensors_imported > 0)
+  {
+    std::ostringstream total_sensors;
+    total_sensors << nb_sensors_imported;
+    this->write_ln ("Imported " +
+                    total_sensors.str() +
+                    " sensors from file \"" +
+                    m_filepath + "\"", output);
+  }
+  else
+    this->write_ln ("No sensors imported from file \"" +
+                    m_filepath + "\"", output);
 
-  const xmlpp::Node* root_node = this->get_document ()->get_root_node ();
-
-  this->get_node (root_node, cluster, 0, output);
-
-  nb_sensors_added++;
-
-  return nb_sensors_added;
-}
-
-void Parser::write_indent (unsigned int indent, std::ostream& output) const
-{
-  for (unsigned int i = 0; i < indent; ++i)
-    output << " ";
+  return nb_sensors_imported;
 }
 
 void Parser::write (const Glib::ustring& text, std::ostream& output) const

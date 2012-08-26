@@ -24,7 +24,7 @@
 //interval between samples of the generated series
 #define STEP_SIZE 0.1
 
-//configuration filepath
+//xml filepath
 #define FILEPATH "xml/cluster.xml"
 
 #include <cstring>
@@ -83,6 +83,8 @@ int main(int argc, char *argv[]) {
   std::ofstream log ("log/xml.log");
 
   parser.to_cluster (*c0, log);
+
+  c0->write ();
 
 /* END Test parser*/
 
