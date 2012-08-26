@@ -36,4 +36,4 @@ $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) $< -c -o $@ $(LIBS) $(PKG_CONFIG)
 
 clean:
-	rm -rf *.o *.out *~ sim/*.o sim/*.out sim/*~ $(PROG)
+	rm -rf *.o *.out *~ sim/*.o sim/*.out sim/*~ log/*~ config/*~ $(PROG)
