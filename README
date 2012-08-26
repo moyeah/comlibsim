@@ -33,8 +33,8 @@ To clone repository run "git clone https://github.com/moyeah/comlibsim.git"
 
 Contacts
 --------
-If you want to report bugs, get more information or any other subject please
-email Daniel Sousa <da.arada@gmail.com>.
+If you want to report bugs or get more information subject please email 
+Daniel Sousa <da.arada@gmail.com>.
 
 
 Classes and inheritances
@@ -94,13 +94,17 @@ All source code is developed under C++ Standard Library, with the exception
 of class Parser.
 The class Parser makes use of "libxml++" that is a C++ wrapper for the 
 "libxml" XML parser library.
+You have to libxml develop package to enable the use of this library
+  Ubuntu: sudo apt-get install libxml++2.6-dev
+  Fedora: su -c 'yum install libxml++-devel'
+  ArchLinux: su -c 'pacman -S libxml++'
 To compile with class Parser you shall use the pkg-config.pc file to make it 
 easy. For instance, the following command shall provide the necessary compiler 
 options "pkg-config libxml++-2.6 --cflags --libs".
 The easy way is to make use of the GNU Make tool.
 
   Example of Makefile
-  -------------------
+  """""""""""""""""""
   CC=g++
   CFLAGS=-Wall
   LIBS=
@@ -122,7 +126,53 @@ The easy way is to make use of the GNU Make tool.
 
   .cpp.o:
           $(CC) $(CFLAGS) $< -c -o $@ $(LIBS) $(PKG_CONFIG)
-  -------------------
+  """""""""""""""""""
 
 Use
 ---
+This charpter is presented in terms of example to able the reader to understand
+how to use the code.
+The 1st work to be made is related with the creation/initialization of the 
+Cluster.
+The library able the user to work in 2(two) diferent scenarios in terms of 
+Cluster initialization:
+ * with xml configuration
+ * without xml configuration (hard coding)
+
+  With xml configuration
+  ~~~~~~~~~~~~~~~~~~~~~~
+  The 1st step is to create the configuration file - xml file - and save it 
+  to anydir/anyname.xml.
+
+    Example of configuration file - xml file
+    """"""""""""""""""""""""""""""""""""""""
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- XML Example file of cluster configuration -->
+    <Cluster description="Example Cluster">
+      <Sensor tag="Sensor 01" x="0.0" y="0.0" max_rate="50.0" data="100.0"/>
+      <Sensor tag="Sensor 02" x="10.0" y="10.0" max_rate="50.0" data="100.0"/>
+      <Sensor tag="Sensor 03" x="20.0" y="20.0" max_rate="50.0" data="200.0"/>
+      <Sensor tag="Sensor 04" x="30.0" y="30.0" max_rate="25.0" data="10.0"/>
+    </Cluster>
+    """"""""""""""""""""""""""""""""""""""""
+
+  Then just create the Cluster and fill it with the Sensors. 
+
+    Example of source code file with main function
+    """"""""""""""""""""""""""""""""""""""""""""""
+    // Include the parser header
+    #include "parser.hpp"
+
+    // The main function
+    void main ()
+    {
+      // Create the cluster
+      Cluster cluster;
+
+      // Create the parser
+      Parser parser ("anydir/anyname.xml");
+
+      // Init cluster with configuration xml file
+      parser.to_cluster (cluster)
+    }
+    """"""""""""""""""""""""""""""""""""""""""""""
