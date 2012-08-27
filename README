@@ -1,23 +1,21 @@
-/*
- *  README
- *
- *  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
- *  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
- *
- *  Autor:
- *    Daniel Sousa  <da.arada@gmail.com>
- *
- *  Orientador:
- *    Jorge Estrela  <jes@isep.ipp.pt>
- */
+==================================================================
+          ComLibSim - Communication Library Simulator
+==================================================================
 
-===============================================
-  ComLibSim - Communication Library Simulator
-===============================================
+  README
+
+    Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
+    Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
+
+    Created by:
+      Daniel Sousa  <da.arada@gmail.com>
+
+    Sponsor:
+      Jorge Estrela  <jes@isep.ipp.pt>
+
 
 What is it?
 -----------
-
 The ComLibSim is a library to simulate the comunication between sensors,
 including the bandwidth scheduling. It has been designed to be apart of
 a simulation mecanism to test deferent scenarios of communication.
@@ -176,3 +174,116 @@ Cluster initialization:
       parser.to_cluster (cluster)
     }
     """"""""""""""""""""""""""""""""""""""""""""""
+
+  Without xml configuration (hard coding)
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Without the xml configuration file the Cluster has to be created in the
+  code. To create it you have to 1st create the Sensors and after add them
+  to the Cluster.
+
+    Example of source code file with main function
+    """"""""""""""""""""""""""""""""""""""""""""""
+    // Include the parser header
+    #include "cluster.hpp"
+
+    // The main function
+    void main ()
+    {
+      // Create the cluster
+      Cluster cluster;
+
+      // Create the sensors
+      Sensor sensor_00 (Position (0.0, 0.0), 50.0, 500.0);
+      Sensor sensor_01 (Position (100.0, 0.0), 50.0, 500.0);
+      Sensor sensor_02 (Position (0.0, 100.0), 50.0, 500.0);
+      Sensor sensor_03 (Position (100.0, 100.0), 50.0, 500.0);
+      Sensor sensor_04 (Position (10.0, 10.0), 50.0, 500.0);
+
+      // Add the sensores to the cluster
+      cluster.add (sensor_00);
+      cluster.add (sensor_01);
+      cluster.add (sensor_02);
+      cluster.add (sensor_03);
+      cluster.add (sensor_04);
+    }
+    """"""""""""""""""""""""""""""""""""""""""""""
+
+Either by one or other of the above methods used  to create/initialize the 
+cluster, next you shall make use of the methods available to select the sensors
+able to connect and the sensors bandwidth including the bandwisth scheduling.
+
+The tasks mentioned above can be used by 2(two) ways, discrete simulation or 
+continuous.
+
+  Discrete simulation
+  ~~~~~~~~~~~~~~~~~~~
+  A discrete simulation is intended to be a simulation that every step is
+  in control of the coder - fixed step size. The coder define the simulation
+  step and it's constant during the simulation.
+
+    Example of source code file with main function
+    """"""""""""""""""""""""""""""""""""""""""""""
+    // Include the cluster header
+    #include "cluster.hpp"
+
+    // The main function
+    void main ()
+    {
+
+      (...)
+
+      // Map sensors with actual communication rate
+      //   to position (x, y)
+      //     AGV_BANDWIDTH is the AGV bandwidth
+      cluster.map (Position (x, y), AGV_BANDWIDTH);
+
+      // Get the sensors actual communication rate
+      double s0_rate = sensor_00.rate ();
+      double s0_rate = sensor_01.rate ();
+      double s0_rate = sensor_02.rate ();
+      double s0_rate = sensor_03.rate ();
+      double s0_rate = sensor_04.rate ();
+
+      // or
+      //   to use this method you have to allocate the 
+      //     memory of pointer rate in you code
+      cluster.get_rate (rate)
+    }
+    """"""""""""""""""""""""""""""""""""""""""""""
+
+  Continuous simulation
+  ~~~~~~~~~~~~~~~~~~~~~
+  A continuous simalation is intended to be a simulation with variable
+  step size, without  coder control. The step is defined in the execution
+  of the simulation.
+
+    Example of source code file with main function
+    """"""""""""""""""""""""""""""""""""""""""""""
+    // Include the cluster header
+    #include "cluster.hpp"
+
+    // The main function
+    void main ()
+    {
+
+      (...)
+
+      // Inicialize integration cluster
+      cluster.init_int ();
+
+      // Get the sensors actual communication rate
+      //   with scheduling done and to position
+      //     (x = position[0], y = position[1])
+      cluster.get_rate_int (rate, position, AGV_BANDWIDTH);
+
+      ([integration task])
+
+      // Repeat
+      cluster.init_int ();
+      cluster.get_rate_int (rate, position, AGV_BANDWIDTH);
+    }
+    """"""""""""""""""""""""""""""""""""""""""""""
+
+For control of the object that collects/downloads data from the sensors
+there's a method available to get the closest sensor of a cluster called
+"closest".

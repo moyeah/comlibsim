@@ -4,10 +4,10 @@
  #  Copyright (C) 2011-2012  Daniel Sousa   <da.arada@gmail.com>
  #  Copyright (C) 2011-2012  Jorge Estrela  <jes@isep.ipp.pt>
  #
- #  Autor:
+ #  Created by:
  #    Daniel Sousa  <da.arada@gmail.com>
  #
- #  Orientador:
+ #  Sponsor:
  #    Jorge Estrela  <jes@isep.ipp.pt>
  ##
 
