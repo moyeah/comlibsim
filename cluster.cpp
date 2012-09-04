@@ -155,7 +155,11 @@ void Cluster::set_data (double *data)
        i != m_sensors.end ();
        i++)
   {
-    i->data (data[j]);
+    if (data[j] < 0)
+      i->data (0.0);
+    else
+      i->data (data[j]);
+
     j++;
   }
 }
@@ -278,6 +282,26 @@ void Cluster::write (std::ostream& output) const
   {
     i->write_ln (output);
   }
+}
+
+void Cluster::write_log (std::ostream& output) const
+{
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->write_log (output);
+
+    if (i != m_sensors.end ())
+      output << " ";
+  }
+}
+
+void Cluster::write_log_ln (std::ostream& output) const
+{
+  this->write_log (output);
+
+  output << std::endl;
 }
 
 }

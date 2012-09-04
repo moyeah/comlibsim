@@ -110,6 +110,11 @@ void Accumulator::write_ln (std::ostream& output) const
   output << std::endl;
 }
 
+void Accumulator::write_log (std::ostream& output) const
+{
+  output << m_amount_data;
+}
+
 std::ostream& operator << (std::ostream& output,
                            const Accumulator& accumulator)
 {

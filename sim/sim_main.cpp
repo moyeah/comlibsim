@@ -28,8 +28,9 @@
 #define CLUSTER_CONF "config/cluster.xml"
 
 //log files
-#define SIM_LOG "log/sim.log" //Simulation
-#define XML_LOG "log/xml.log" //XML import
+#define SIM_LOG     "log/sim.log"     //Simulation
+#define XML_LOG     "log/xml.log"     //XML import
+#define CLUSTER_LOG "log/cluster.log" //Cluster log
 
 #include <cstring>
 #include <cstdio>
@@ -84,9 +85,9 @@ int main(int argc, char *argv[]) {
 /* Test parser */
   Parser parser (CLUSTER_CONF);
 
-  std::ofstream log (XML_LOG);
+  std::ofstream xml_log (XML_LOG);
 
-  parser.to_cluster (*c0, log);
+  parser.to_cluster (*c0, xml_log);
 
   c0->write ();
 
@@ -148,6 +149,9 @@ int main(int argc, char *argv[]) {
   
   printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
   printf("n_dim=%u; horizon_MR=%u\n",n_dim,horizon_MR);  
+
+  // Log simulation file
+  std::ofstream cluster_log (CLUSTER_LOG);
     
   //constant disturbance
   b=0.25;
@@ -193,8 +197,10 @@ int main(int argc, char *argv[]) {
 
     printf("%s",buf);
     fprintf(fp,"%s",buf);
-    
-    
+
+  // Log simulation
+  c0->write_log_ln (cluster_log);
+
 
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);
     c0->set_data(state+3);

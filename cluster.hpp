@@ -80,7 +80,9 @@ public:
   virtual ComMap map     (const Position& position, double agv_bandwidth);
   virtual ComMap map_int (const Position& position, double agv_bandwidth);
 
-  virtual void write (std::ostream& output = std::cout) const;
+  virtual void write        (std::ostream& output = std::cout) const;
+  virtual void write_log    (std::ostream& output = std::cout) const;
+  virtual void write_log_ln (std::ostream& output = std::cout) const;
 };
 
 }

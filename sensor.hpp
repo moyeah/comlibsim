@@ -55,8 +55,9 @@ public:
   virtual double rate_at     (const Position& position) const;
   virtual double distance_to (const Position& position) const;
 
-  virtual void write    (std::ostream& output = std::cout) const;
-  virtual void write_ln (std::ostream& output = std::cout) const;
+  virtual void write     (std::ostream& output = std::cout) const;
+  virtual void write_ln  (std::ostream& output = std::cout) const;
+  virtual void write_log (std::ostream& output = std::cout) const;
 
   friend std::ostream& operator << (std::ostream& output,
                                     const Sensor& sensor);
