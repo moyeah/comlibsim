@@ -24,13 +24,8 @@
 //interval between samples of the generated series
 #define STEP_SIZE 0.1
 
-//xml filepath
-#define CLUSTER_CONF "config/cluster.xml"
-
 //log files
 #define SIM_LOG     "log/sim.log"     //Simulation
-#define XML_LOG     "log/xml.log"     //XML import
-#define CLUSTER_LOG "log/cluster.log" //Cluster log
 
 #include <cstring>
 #include <cstdio>
@@ -47,8 +42,8 @@ void configureVF(VF &);
 #endif
 
 #include "ode_solvers.hpp"
+#include "sim_main.hpp"
 
-#include "../cluster.hpp"
 #include "../parser.hpp"
 
 int dynamics(double t, const double *x0, double *deriv, void *param);
@@ -58,7 +53,7 @@ void compute_control(const double *state, double * const input);
 using namespace ComLibSim;
 Cluster* init_cluster();
 
-int main(int argc, char *argv[]) {
+int sim_main(const struct arguments *arguments) {
   double a, b;
   int i=0;
   char buf[1000];
@@ -83,13 +78,12 @@ int main(int argc, char *argv[]) {
   Cluster *c0 = init_cluster();
 
 /* Test parser */
-  Parser parser (CLUSTER_CONF);
+  Parser parser (arguments->cluster_xml_file[0]);
 
-  std::ofstream xml_log (XML_LOG);
+  std::ofstream xml_log (arguments->cluster_log_file);
 
+  parser.to_cluster (*c0);
   parser.to_cluster (*c0, xml_log);
-
-  c0->write ();
 
 /* END Test parser*/
 
@@ -146,12 +140,13 @@ int main(int argc, char *argv[]) {
 
   //output filename
   fp = fopen(SIM_LOG,"w"); 
-  
-  printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
+ 
+  if (arguments->verbose == 1) 
+    printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
   printf("n_dim=%u; horizon_MR=%u\n",n_dim,horizon_MR);  
 
   // Log simulation file
-  std::ofstream cluster_log (CLUSTER_LOG);
+  std::ofstream cluster_log (arguments->cluster_log_file);
     
   //constant disturbance
   b=0.25;
@@ -195,7 +190,8 @@ int main(int argc, char *argv[]) {
 
     sprintf(buf+strlen(buf),"%f %f\n",a,b);
 
-    printf("%s",buf);
+    if (arguments->verbose == 1)
+      printf("%s",buf);
     fprintf(fp,"%s",buf);
 
   // Log simulation

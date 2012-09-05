@@ -23,7 +23,8 @@ SRCS= accumulator.cpp \
       parser.cpp \
       sim/sim_model.cpp \
       sim/ode_solvers.cpp \
-      sim/sim_main.cpp
+      sim/sim_main.cpp \
+      comlibsim.cpp
 OBJS=$(SRCS:.cpp=.o)
 PROG=comlibsim
 

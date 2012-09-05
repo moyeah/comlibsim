@@ -30,15 +30,13 @@ Cluster* init_cluster()
   Sensor s1 (Position (100.0, 0.0), 50.0, 500.0);
   Sensor s2 (Position (0.0, 100.0), 50.0, 500.0);
   Sensor s3 (Position (100.0, 100.0), 50.0, 500.0);
-  Sensor s4 (Position (100.0, 100.0), 50.0, 500.0);
 
   c0.add (s0);
   c0.add (s1);
   c0.add (s2);
   c0.add (s3);
-  c0.add (s4);
   
-  printf("%d sensors\n", c0.nb_sensors());
+  printf("Hard coded added: %d sensors \n", c0.nb_sensors());
 
   return &c0;
 }
