@@ -297,8 +297,23 @@ void Cluster::write_log (std::ostream& output) const
   }
 }
 
-void Cluster::write_log_ln (std::ostream& output) const
+void Cluster::write_map (std::ostream& output) const
 {
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->write_map (output);
+
+    if (i != m_sensors.end ())
+      output << std::endl;
+  }
+}
+
+void Cluster::write_log_ln (double t, std::ostream& output) const
+{
+  output << t << " ";
+
   this->write_log (output);
 
   output << std::endl;

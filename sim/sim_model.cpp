@@ -26,6 +26,7 @@ normalizeRadian(double a)
   
 Cluster* init_cluster()
 {
+/*
   Sensor s0 (Position (0.0, 0.0), 50.0, 500.0);
   Sensor s1 (Position (100.0, 0.0), 50.0, 500.0);
   Sensor s2 (Position (0.0, 100.0), 50.0, 500.0);
@@ -37,6 +38,7 @@ Cluster* init_cluster()
   c0.add (s3);
   
   printf("Hard coded added: %d sensors \n", c0.nb_sensors());
+*/
 
   return &c0;
 }

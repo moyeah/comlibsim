@@ -23,9 +23,7 @@
 
 //interval between samples of the generated series
 #define STEP_SIZE 0.1
-
-//log files
-#define SIM_LOG     "log/sim.log"     //Simulation
+#define MAX_TIME  10000
 
 #include <cstring>
 #include <cstdio>
@@ -42,9 +40,9 @@ void configureVF(VF &);
 #endif
 
 #include "ode_solvers.hpp"
-#include "sim_main.hpp"
 
 #include "../parser.hpp"
+#include "../comlibsim.hpp"
 
 int dynamics(double t, const double *x0, double *deriv, void *param);
 
@@ -80,11 +78,10 @@ int sim_main(const struct arguments *arguments) {
 /* Test parser */
   Parser parser (arguments->cluster_xml_file[0]);
 
-  std::ofstream xml_log (arguments->cluster_log_file);
-
   parser.to_cluster (*c0);
-  parser.to_cluster (*c0, xml_log);
 
+  std::ofstream sensors_map (arguments->sensors_map_file);
+  c0->write_map (sensors_map);
 /* END Test parser*/
 
 #ifdef USE_VF  
@@ -139,7 +136,7 @@ int sim_main(const struct arguments *arguments) {
   c0->get_data(state+3);    
 
   //output filename
-  fp = fopen(SIM_LOG,"w"); 
+  fp = fopen(arguments->output_file,"w"); 
  
   if (arguments->verbose == 1) 
     printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
@@ -150,7 +147,7 @@ int sim_main(const struct arguments *arguments) {
     
   //constant disturbance
   b=0.25;
-  while(t<600)  
+  while(t<MAX_TIME)  
   {
     c0->init_int();
     
@@ -195,7 +192,7 @@ int sim_main(const struct arguments *arguments) {
     fprintf(fp,"%s",buf);
 
   // Log simulation
-  c0->write_log_ln (cluster_log);
+  c0->write_log_ln (t, cluster_log);
 
 
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);

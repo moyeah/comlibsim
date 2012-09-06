@@ -117,6 +117,11 @@ void Sensor::write_log (std::ostream& output) const
   m_accumulator.write_log (output);
 }
 
+void Sensor::write_map (std::ostream& output) const
+{
+  m_position.write_map (output);
+}
+
 std::ostream& operator << (std::ostream& output,
                            const Sensor& sensor)
 {

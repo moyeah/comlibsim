@@ -1,15 +1,9 @@
-#include <iostream>
-#include <stdlib.h>
-#include <argp.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "comlibsim.hpp"
 
-#include "sim/sim_main.hpp"
-
+#define OUTPUT_MAIN_FILE "log/simulation.log"
 #define CLUSTER_LOG_FILE "log/cluster.log"
-#define SENSORS_LOG_FILE "log/sensors.log"
-#define PRINT_SIM_APP    "octave"
+#define SENSORS_MAP_FILE "log/sensors.map"
+#define PRINT_SIM_APP    "gnuplot -p gnuplot/map.p"
 
 const char *argp_program_version     = "ComLibSim v0.0";
 const char *argp_program_bug_address = "<da.arada@gmail.com>";
@@ -19,9 +13,10 @@ static char args_doc [] = "<filename>.xml";
 
 static struct argp_option options[] = {
   {"verbose", 'v', 0,      0, "Verbose output"},
-  {"cluster", 'c', "FILE", 0, "Cluster log file"},
-  {"sensors", 's', "FILE", 0, "Sensors log file"},
-  {"app",     'a', "FILE", 0, "Application to print simulation"},
+  {"output",  'o', "FILE", 0, "Output main file [log/simulation.log]"},
+  {"cluster", 'c', "FILE", 0, "Cluster log file [log/cluster.log]"},
+  {"sensors", 's', "FILE", 0, "Sensors map file [log/sensors.map]"},
+  {"app",     'a', "FILE", 0, "App to print sim [gnuplot]"},
   {0}
 };
 
@@ -35,17 +30,20 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'v':
       arguments->verbose = 1;
       break;
+    case 'o':
+      arguments->output_file = arg;
+      break;
     case 'c':
       arguments->cluster_log_file = arg;
       break;
     case 's':
-      arguments->sensors_log_file = arg;
+      arguments->sensors_map_file = arg;
       break;
     case 'a':
       arguments->print_sim_app = arg;
       break;
     case ARGP_KEY_ARG:
-      if (state->arg_num >= 4)
+      if (state->arg_num >= 5)
         argp_usage (state);
       arguments->cluster_xml_file[state->arg_num] = arg;
       break;
@@ -61,6 +59,8 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = {options, parse_opt, args_doc, doc};
 
+int sim_main(const struct arguments *arguments);
+
 int
 main (int argc, char **argv)
 {
@@ -69,26 +69,31 @@ main (int argc, char **argv)
 
   // Default values
   arguments.verbose          = 0;
+  arguments.output_file      = (char *) OUTPUT_MAIN_FILE;
   arguments.cluster_log_file = (char *) CLUSTER_LOG_FILE;
-  arguments.sensors_log_file = (char *) SENSORS_LOG_FILE;
+  arguments.sensors_map_file = (char *) SENSORS_MAP_FILE;
   arguments.print_sim_app    = (char *) PRINT_SIM_APP;
 
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
 
-  // Start simulation process
-  pid_t sim_pid;
+  // Simulation process
+  sim_main (&arguments);
+
+
+  // Print simulation log files
+  pid_t pid;
   int   process_status;
 
-  sim_pid = fork ();
-  if (sim_pid == 0)
+  pid = fork ();
+  if (pid == 0)
   {
-    sim_main (&arguments);
+    system (arguments.print_sim_app);
   }
-  else if (sim_pid < 0)
+  else if (pid < 0)
     process_status = -1;
   else 
-    if (waitpid (sim_pid, &process_status, 0) != sim_pid)
+    if (waitpid (pid, &process_status, 0) != pid)
       process_status = -1;
 
   return process_status;

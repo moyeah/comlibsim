@@ -110,6 +110,11 @@ void Position::write_ln (std::ostream& output) const
   output << std::endl;
 }
 
+void Position::write_map (std::ostream& output) const
+{
+  output << m_x << " " << m_y;
+}
+
 std::ostream& operator << (std::ostream& output,
                            const Position& position)
 {

@@ -82,7 +82,8 @@ public:
 
   virtual void write        (std::ostream& output = std::cout) const;
   virtual void write_log    (std::ostream& output = std::cout) const;
-  virtual void write_log_ln (std::ostream& output = std::cout) const;
+  virtual void write_map    (std::ostream& output = std::cout) const;
+  virtual void write_log_ln (double t, std::ostream& output = std::cout) const;
 };
 
 }
