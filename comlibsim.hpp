@@ -23,10 +23,12 @@
 
 struct arguments
 {
-  char *cluster_xml_file[1];
-  int   verbose;
-  char *output_file;
-  char *cluster_log_file;
+  char    *cluster_xml_file[1];
+  int      verbose;
+  double   step_size;
+  double   sim_time;
+  char    *output_file;
+  char    *cluster_log_file;
   char *sensors_map_file;
   char *print_sim_app;
 };

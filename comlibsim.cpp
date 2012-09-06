@@ -13,9 +13,11 @@ static char args_doc [] = "<filename>.xml";
 
 static struct argp_option options[] = {
   {"verbose", 'v', 0,      0, "Verbose output"},
-  {"output",  'o', "FILE", 0, "Output main file [log/simulation.log]"},
+  {"step",    's', 0,      0, "Simulation step size [0.1]"},
+  {"time",    't', 0,      0, "Simulation time [10000]"},
+  {"output",  'l', "FILE", 0, "Output main file [log/simulation.log]"},
   {"cluster", 'c', "FILE", 0, "Cluster log file [log/cluster.log]"},
-  {"sensors", 's', "FILE", 0, "Sensors map file [log/sensors.map]"},
+  {"sensors", 'e', "FILE", 0, "Sensors map file [log/sensors.map]"},
   {"app",     'a', "FILE", 0, "App to print sim [gnuplot]"},
   {0}
 };
@@ -30,20 +32,26 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'v':
       arguments->verbose = 1;
       break;
-    case 'o':
+    case 's':
+      arguments->step_size = atof (arg);
+      break;
+    case 't':
+      arguments->sim_time = atof (arg);
+      break;
+    case 'l':
       arguments->output_file = arg;
       break;
     case 'c':
       arguments->cluster_log_file = arg;
       break;
-    case 's':
+    case 'e':
       arguments->sensors_map_file = arg;
       break;
     case 'a':
       arguments->print_sim_app = arg;
       break;
     case ARGP_KEY_ARG:
-      if (state->arg_num >= 5)
+      if (state->arg_num >= 7)
         argp_usage (state);
       arguments->cluster_xml_file[state->arg_num] = arg;
       break;
@@ -69,6 +77,8 @@ main (int argc, char **argv)
 
   // Default values
   arguments.verbose          = 0;
+  arguments.step_size        = 0.1;
+  arguments.sim_time         = 10000;
   arguments.output_file      = (char *) OUTPUT_MAIN_FILE;
   arguments.cluster_log_file = (char *) CLUSTER_LOG_FILE;
   arguments.sensors_map_file = (char *) SENSORS_MAP_FILE;

@@ -19,12 +19,6 @@
 //To plot the accumulated cost:
 //>> plot(traj(:,1),traj(:,5)) 
 
-
-
-//interval between samples of the generated series
-#define STEP_SIZE 0.1
-#define MAX_TIME  10000
-
 #include <cstring>
 #include <cstdio>
 #include <cmath>
@@ -112,7 +106,7 @@ int sim_main(const struct arguments *arguments) {
   rkInit(&rk_data, n_dim, 2+vf.getNLGains());    
   state = (double *) malloc(sizeof(double)*n_dim);
 
-  control_div_max=std::max(1.0,vf.m_delta/STEP_SIZE/horizon_MR);
+  control_div_max=std::max(1.0,vf.m_delta/arguments->step_size/horizon_MR);
   delta_t_control = vf.m_delta/horizon_MR;
   delta_t = delta_t_control/control_div_max;
 
@@ -125,8 +119,8 @@ int sim_main(const struct arguments *arguments) {
   state = (double *) malloc(sizeof(double)*n_dim);
 
   control_div_max=1;
-  delta_t_control = STEP_SIZE;
-  delta_t = STEP_SIZE;
+  delta_t_control = arguments->step_size;
+  delta_t = arguments->step_size;
 #endif
  
   //initial posture
@@ -147,7 +141,7 @@ int sim_main(const struct arguments *arguments) {
     
   //constant disturbance
   b=0.25;
-  while(t<MAX_TIME)  
+  while(t < arguments->sim_time)  
   {
     c0->init_int();
     
