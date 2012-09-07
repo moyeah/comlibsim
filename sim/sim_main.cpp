@@ -206,7 +206,8 @@ int sim_main(const struct arguments *arguments) {
   printf("n_dim=%u; horizon_MR=%u, total_sw_cost=%f\n",vf.getNDimensions(),horizon_MR,sc_total);
 #endif  
   fclose(fp);
-  return 0;
+  
+  return c0->nb_sensors ();
 }
 
 

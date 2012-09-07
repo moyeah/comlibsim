@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <string.h>
 #include <argp.h>
 #include <unistd.h>
 #include <sys/types.h>

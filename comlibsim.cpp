@@ -3,7 +3,7 @@
 #define OUTPUT_MAIN_FILE "log/simulation.log"
 #define CLUSTER_LOG_FILE "log/cluster.log"
 #define SENSORS_MAP_FILE "log/sensors.map"
-#define PRINT_SIM_APP    "gnuplot -p gnuplot/map.p"
+#define PRINT_SIM_APP    "gnuplot"
 
 const char *argp_program_version     = "ComLibSim v0.0";
 const char *argp_program_bug_address = "<da.arada@gmail.com>";
@@ -33,10 +33,10 @@ parse_opt (int key, char *arg, struct argp_state *state)
       arguments->verbose = 1;
       break;
     case 's':
-      arguments->step_size = atof (arg);
+      arguments->step_size = strtod (arg, NULL);
       break;
     case 't':
-      arguments->sim_time = atof (arg);
+      arguments->sim_time = strtod (arg, NULL);
       break;
     case 'l':
       arguments->output_file = arg;
@@ -72,6 +72,8 @@ int sim_main(const struct arguments *arguments);
 int
 main (int argc, char **argv)
 {
+  int nb_sensors;
+
   // Arguments management
   struct arguments arguments;
 
@@ -88,8 +90,7 @@ main (int argc, char **argv)
 
 
   // Simulation process
-  sim_main (&arguments);
-
+  nb_sensors = sim_main (&arguments);
 
   // Print simulation log files
   pid_t pid;
@@ -98,7 +99,16 @@ main (int argc, char **argv)
   pid = fork ();
   if (pid == 0)
   {
-    system (arguments.print_sim_app);
+    if (strcmp (arguments.print_sim_app, (char *) PRINT_SIM_APP) == 0)
+      {
+        char gnuplot_script[50];
+
+        sprintf (gnuplot_script,
+                 "%s -p -e \"NbSensors=%d\" gnuplot/map.p",
+                 arguments.print_sim_app,
+                 nb_sensors);
+        system (gnuplot_script);
+      }
   }
   else if (pid < 0)
     process_status = -1;
