@@ -12,13 +12,13 @@ static char doc[]       = "Communication Library Simulator";
 static char args_doc [] = "<filename>.xml";
 
 static struct argp_option options[] = {
-  {"verbose", 'v', 0,      0, "Verbose output"},
-  {"step",    's', 0,      0, "Simulation step size [0.1]"},
-  {"time",    't', 0,      0, "Simulation time [10000]"},
-  {"output",  'l', "FILE", 0, "Output main file [log/simulation.log]"},
-  {"cluster", 'c', "FILE", 0, "Cluster log file [log/cluster.log]"},
-  {"sensors", 'e', "FILE", 0, "Sensors map file [log/sensors.map]"},
-  {"app",     'a', "FILE", 0, "App to print sim [gnuplot]"},
+  {"verbose", 'v', 0,        0, "Verbose output"},
+  {"step",    's', "NUMBER", 0, "Simulation step size [0.1]"},
+  {"time",    't', "DOUBLE", 0, "Simulation time [10000]"},
+  {"output",  'l', "FILE",   0, "Output main file [log/simulation.log]"},
+  {"cluster", 'c', "FILE",   0, "Cluster log file [log/cluster.log]"},
+  {"sensors", 'e', "FILE",   0, "Sensors map file [log/sensors.map]"},
+  {"app",     'a', "FILE",   0, "App to print sim [gnuplot]"},
   {0}
 };
 
@@ -51,7 +51,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       arguments->print_sim_app = arg;
       break;
     case ARGP_KEY_ARG:
-      if (state->arg_num >= 7)
+      if (state->arg_num >= 1)
         argp_usage (state);
       arguments->cluster_xml_file[state->arg_num] = arg;
       break;
@@ -73,6 +73,7 @@ int
 main (int argc, char **argv)
 {
   int nb_sensors;
+  int status;
 
   // Arguments management
   struct arguments arguments;
@@ -88,33 +89,20 @@ main (int argc, char **argv)
 
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
-
-  // Simulation process
+  // Run simulation
   nb_sensors = sim_main (&arguments);
 
   // Print simulation log files
-  pid_t pid;
-  int   process_status;
-
-  pid = fork ();
-  if (pid == 0)
+  if (strcmp (arguments.print_sim_app, (char *) PRINT_SIM_APP) == 0)
   {
-    if (strcmp (arguments.print_sim_app, (char *) PRINT_SIM_APP) == 0)
-      {
-        char gnuplot_script[50];
+    char gnuplot_script[50];
 
-        sprintf (gnuplot_script,
-                 "%s -p -e \"NbSensors=%d\" gnuplot/map.p",
-                 arguments.print_sim_app,
-                 nb_sensors);
-        system (gnuplot_script);
-      }
+    sprintf (gnuplot_script,
+             "%s -p -e \"NbSensors=%d\" gnuplot/map.p",
+             arguments.print_sim_app,
+             nb_sensors);
+    status = system (gnuplot_script);
   }
-  else if (pid < 0)
-    process_status = -1;
-  else 
-    if (waitpid (pid, &process_status, 0) != pid)
-      process_status = -1;
 
-  return process_status;
+  return status;
 }
