@@ -18,17 +18,20 @@ namespace ComLibSim
 
 Sensor::Sensor (const Position& position,
                 double max_rate,
-                double data):
+                double data,
+                const std::string& tag):
   m_accumulator(Accumulator (data)),
   m_position(position),
-  m_com_rate(ComRate (position, max_rate))
+  m_com_rate(ComRate (position, max_rate)),
+  m_tag(tag)
 {
 }
 
 Sensor::Sensor (const Sensor& sensor):
   m_accumulator(sensor.m_accumulator),
   m_position(sensor.m_position),
-  m_com_rate(sensor.m_com_rate)
+  m_com_rate(sensor.m_com_rate),
+  m_tag(sensor.m_tag)
 {
 }
 
@@ -45,7 +48,8 @@ bool Sensor::operator == (const Sensor& sensor) const
 {
   return m_accumulator == sensor.m_accumulator &&
          m_position == sensor.m_position &&
-         m_com_rate == sensor.m_com_rate;
+         m_com_rate == sensor.m_com_rate &&
+         m_tag == sensor.m_tag;
 }
 
 bool Sensor::operator != (const Sensor& sensor) const
@@ -112,14 +116,20 @@ void Sensor::write_ln (std::ostream& output) const
   output << std::endl;
 }
 
-void Sensor::write_log (std::ostream& output) const
+void Sensor::write_accumulator_log (std::ostream& output) const
 {
   m_accumulator.write_log (output);
+}
+
+void Sensor::write_rate_log (std::ostream& output) const
+{
+  m_com_rate.write_log (output);
 }
 
 void Sensor::write_map (std::ostream& output) const
 {
   m_position.write_map (output);
+  output << " " << m_tag; 
 }
 
 std::ostream& operator << (std::ostream& output,

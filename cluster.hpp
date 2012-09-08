@@ -62,10 +62,11 @@ public:
   virtual void add (const Sensor& sensor);
 
   virtual void init_int ();
+  virtual void copy_int ();
 
-  virtual void get_data     (double *data);
-  virtual void get_data_int (double *data);
-  virtual void get_rate     (double *rate);
+  virtual void get_data     (double *data) const;
+  virtual void get_data_int (double *data) const;
+  virtual void get_rate     (double *rate) const;
   virtual void get_rate_int (double *rate,
                              const double *position,
                              double agv_bandwidth);
@@ -80,10 +81,14 @@ public:
   virtual ComMap map     (const Position& position, double agv_bandwidth);
   virtual ComMap map_int (const Position& position, double agv_bandwidth);
 
-  virtual void write        (std::ostream& output = std::cout) const;
-  virtual void write_log    (std::ostream& output = std::cout) const;
-  virtual void write_map    (std::ostream& output = std::cout) const;
-  virtual void write_log_ln (double t, std::ostream& output = std::cout) const;
+  virtual void write                    (std::ostream& output = std::cout) const;
+  virtual void write_accumulator_log    (std::ostream& output = std::cout) const;
+  virtual void write_accumulator_log_ln (double t,
+                                         std::ostream& output = std::cout) const;
+  virtual void write_rate_log           (std::ostream& output = std::cout) const;
+  virtual void write_rate_log_ln        (double t,
+                                         std::ostream& output = std::cout) const;
+  virtual void write_map                (std::ostream& output = std::cout) const;
 };
 
 }

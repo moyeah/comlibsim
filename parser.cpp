@@ -59,8 +59,9 @@ int Parser::to_cluster (Cluster& cluster,
                           sensor_element->get_attribute_value ("max_rate"));
       double data = Glib::Ascii::strtod (
                       sensor_element->get_attribute_value ("data"));
+      Glib::ustring tag = sensor_element->get_attribute_value ("tag");
 
-      cluster.add (Sensor (Position (x, y), max_rate, data));
+      cluster.add (Sensor (Position (x, y), max_rate, data, tag));
 
       nb_sensors_imported++;
     }

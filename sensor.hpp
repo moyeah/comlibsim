@@ -30,11 +30,13 @@ private:
   Accumulator m_accumulator;
   Position    m_position;
   ComRate     m_com_rate;
+  std::string m_tag;
 
 public:
   Sensor (const Position& position,
           double max_rate,
-          double data);
+          double data,
+          const std::string& tag = NULL);
   Sensor (const Sensor& sensor);
   virtual ~Sensor ();
 
@@ -55,10 +57,11 @@ public:
   virtual double rate_at     (const Position& position) const;
   virtual double distance_to (const Position& position) const;
 
-  virtual void write     (std::ostream& output = std::cout) const;
-  virtual void write_ln  (std::ostream& output = std::cout) const;
-  virtual void write_log (std::ostream& output = std::cout) const;
-  virtual void write_map (std::ostream& output = std::cout) const;
+  virtual void write                 (std::ostream& output = std::cout) const;
+  virtual void write_ln              (std::ostream& output = std::cout) const;
+  virtual void write_accumulator_log (std::ostream& output = std::cout) const;
+  virtual void write_rate_log        (std::ostream& output = std::cout) const;
+  virtual void write_map             (std::ostream& output = std::cout) const;
 
   friend std::ostream& operator << (std::ostream& output,
                                     const Sensor& sensor);

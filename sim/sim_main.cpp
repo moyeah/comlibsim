@@ -48,8 +48,6 @@ Cluster* init_cluster();
 int sim_main(const struct arguments *arguments) {
   double a, b;
   int i=0;
-  char buf[1000];
-  FILE *fp;
   double t = 0;
   unsigned int mr_count=0;
   rk_data_t rk_data;  
@@ -112,8 +110,8 @@ int sim_main(const struct arguments *arguments) {
 
 #else
   
-  //4 + número de se sensores
-  n_dim = 4 + c0->nb_sensors();
+  //3 + número de se sensores
+  n_dim = 3 + c0->nb_sensors();
   
   rkInit(&rk_data, n_dim, 2);      
   state = (double *) malloc(sizeof(double)*n_dim);
@@ -130,14 +128,19 @@ int sim_main(const struct arguments *arguments) {
   c0->get_data(state+3);    
 
   //output filename
-  fp = fopen(arguments->output_file,"w"); 
+  std::ofstream simulation_log (arguments->simulation_log_file);
+  simulation_log << std::fixed << std::setprecision (10);
+//  fp = fopen(arguments->output_file,"w"); 
  
   if (arguments->verbose == 1) 
     printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);
   printf("n_dim=%u; horizon_MR=%u\n",n_dim,horizon_MR);  
 
-  // Log simulation file
-  std::ofstream cluster_log (arguments->cluster_log_file);
+  // Log simulation files
+  std::ofstream accumulator_log (arguments->accumulator_log_file);
+  accumulator_log << std::fixed << std::setprecision (10);
+  std::ofstream rate_log (arguments->rate_log_file);
+  rate_log << std::fixed << std::setprecision (10);
     
   //constant disturbance
   b=0.25;
@@ -174,23 +177,33 @@ int sim_main(const struct arguments *arguments) {
     b = rk_data.aux.input[1];
 #endif
 
-    sprintf(buf,"%f ",t);
+    simulation_log << t << " ";
+//    sprintf(buf,"%f ",t);
     for(i=0;i<n_dim;++i)
-      sprintf(buf+strlen(buf),"%f ",state[i]);
+      simulation_log << state[i] << " ";
+//      sprintf(buf+strlen(buf),"%f ",state[i]);
 
-
-    sprintf(buf+strlen(buf),"%f %f\n",a,b);
+    simulation_log << a << " " << b << std::endl;
+//    sprintf(buf+strlen(buf),"%f %f\n",a,b);
 
     if (arguments->verbose == 1)
-      printf("%s",buf);
-    fprintf(fp,"%s",buf);
+    {
+      std::cout << t << " ";
+      for(i=0;i<n_dim;++i)
+        std::cout << state[i] << " ";
+      simulation_log << a << " " << b << std::endl;
+    }
+//      printf("%s",buf);
+//    fprintf(fp,"%s",buf);
 
   // Log simulation
-  c0->write_log_ln (t, cluster_log);
+  c0->write_accumulator_log_ln (t, accumulator_log);
+  c0->write_rate_log_ln (t, rate_log);
 
 
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);
-    c0->set_data(state+3);
+  c0->set_data(state+3);
+//  c0->set_rate();
     
     t += delta_t;
 
@@ -204,7 +217,7 @@ int sim_main(const struct arguments *arguments) {
   vf.unload();
   printf("n_dim=%u; horizon_MR=%u, total_sw_cost=%f\n",vf.getNDimensions(),horizon_MR,sc_total);
 #endif  
-  fclose(fp);
+//  fclose(fp);
   
   return c0->nb_sensors ();
 }

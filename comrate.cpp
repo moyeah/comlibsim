@@ -99,7 +99,8 @@ double ComRate::rate_at (double distance) const
     return - m_max_rate;
 
   if (distance < m_radius_high)
-    return - m_max_rate * ::pow (10.0, -0.024 * distance);
+    return - m_max_rate * ::exp (1 - (distance / m_radius_low));
+//    return - m_max_rate * ::pow (10.0, -0.024 * distance);
 
   return 0.0;
 }
@@ -129,6 +130,12 @@ void ComRate::write_ln (std::ostream& output) const
   this->write (output);
   
   output << "END" << std::endl;
+}
+
+void ComRate::write_log (std::ostream& output) const
+{
+  output << std::fixed << std::setprecision (10);
+  output << m_act_rate;
 }
 
 std::ostream& operator << (std::ostream& output,

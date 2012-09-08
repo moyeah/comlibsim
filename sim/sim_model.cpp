@@ -4,7 +4,7 @@
 #include "../cluster.hpp"
 
 
-#define MAX_AV_BANDWIDTH 50.0
+#define MAX_AV_BANDWIDTH 1.0
 
 using namespace ComLibSim;
 static Cluster c0;
@@ -87,7 +87,7 @@ void compute_control(const double *state, double * const input)
   //Caso contrário, continua a viajar na direção do sensor.
   //Exemplo: 
   
-#if 1
+#if 0
   Sensor* closest_sensor;
   double xy[2];
 
@@ -143,7 +143,7 @@ void compute_control(const double *state, double * const input)
 
 #else
 
-  input[0]=1;
+  input[0]=10;
   input[1]=0.25;
   
 #endif  

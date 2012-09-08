@@ -18,20 +18,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <argp.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 struct arguments
 {
-  char    *cluster_xml_file[1];
-  int      verbose;
-  double   step_size;
-  double   sim_time;
-  char    *output_file;
-  char    *cluster_log_file;
-  char *sensors_map_file;
-  char *print_sim_app;
+  char   *cluster_xml_file[1];
+  int     verbose;
+  double  step_size;
+  double  sim_time;
+  char   *simulation_log_file;
+  char   *accumulator_log_file;
+  char   *rate_log_file;
+  char   *sensors_map_file;
+  char   *print_sim_app;
 };
 
 #endif

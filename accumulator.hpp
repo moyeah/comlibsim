@@ -15,6 +15,7 @@
 #define __H_ACCUMULATOR__
 
 #include <iostream>
+#include <iomanip>
 
 #include "object.hpp"
 

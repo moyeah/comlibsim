@@ -85,14 +85,6 @@ void Position::get_xy (double *xy) const
   xy[1] = this->get_y ();
 }
 
-/*
-void Position::set (double x, double y)
-{
-  m_x = x;
-  m_y = y;
-}
-*/
-
 double Position::distance_to (const Position& position) const
 {
   return ::sqrt (::pow (m_x - position.m_x, 2) +

@@ -90,7 +90,12 @@ void Cluster::init_int ()
   m_sensors_int = m_sensors;
 }
 
-void Cluster::get_data (double *data)
+void Cluster::copy_int ()
+{
+  m_sensors = m_sensors_int;
+}
+
+void Cluster::get_data (double *data) const
 {
   int j = 0;
 
@@ -103,7 +108,7 @@ void Cluster::get_data (double *data)
   }
 }
 
-void Cluster::get_data_int (double *data)
+void Cluster::get_data_int (double *data) const
 {
   int j = 0;
 
@@ -116,7 +121,7 @@ void Cluster::get_data_int (double *data)
   }
 }
 
-void Cluster::get_rate (double *rate)
+void Cluster::get_rate (double *rate) const
 {
   int j = 0;
 
@@ -288,17 +293,48 @@ void Cluster::write (std::ostream& output) const
   }
 }
 
-void Cluster::write_log (std::ostream& output) const
+void Cluster::write_accumulator_log (std::ostream& output) const
 {
   for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
        i != m_sensors.end ();
        i++)
   {
-    i->write_log (output);
+    i->write_accumulator_log (output);
 
     if (i != m_sensors.end ())
       output << " ";
   }
+}
+
+void Cluster::write_accumulator_log_ln (double t, std::ostream& output) const
+{
+  output << t << " ";
+
+  this->write_accumulator_log (output);
+
+  output << std::endl;
+}
+
+void Cluster::write_rate_log (std::ostream& output) const
+{
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->write_rate_log (output);
+
+    if (i != m_sensors.end ())
+      output << " ";
+  }
+}
+
+void Cluster::write_rate_log_ln (double t, std::ostream& output) const
+{
+  output << t << " ";
+
+  this->write_rate_log (output);
+
+  output << std::endl;
 }
 
 void Cluster::write_map (std::ostream& output) const
@@ -312,15 +348,6 @@ void Cluster::write_map (std::ostream& output) const
     if (i != m_sensors.end ())
       output << std::endl;
   }
-}
-
-void Cluster::write_log_ln (double t, std::ostream& output) const
-{
-  output << t << " ";
-
-  this->write_log (output);
-
-  output << std::endl;
 }
 
 }

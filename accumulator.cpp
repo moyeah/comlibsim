@@ -112,6 +112,7 @@ void Accumulator::write_ln (std::ostream& output) const
 
 void Accumulator::write_log (std::ostream& output) const
 {
+  output << std::fixed << std::setprecision (10);
   output << m_amount_data;
 }
 
