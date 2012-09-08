@@ -29,7 +29,7 @@ double Cluster::ComMap::select (std::vector<Sensor>& sensors,
 	
     if (!i->is_empty () && rate != 0.0)
     {
-      bandwidth += rate;
+      bandwidth -= rate;
       i->rate (rate);
       push_back (i);
     }
@@ -172,7 +172,11 @@ void Cluster::set_data_int (const double *data)
        i != m_sensors_int.end ();
        i++)
   {
-    i->data (data[j]);
+    if (data[j] < 0)
+      i->data (0.0);
+    else
+      i->data (data[j]);
+
     j++;
   }
 }

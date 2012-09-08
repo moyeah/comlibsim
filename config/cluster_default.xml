@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- XML Example file of cluster configuration -->
 <Cluster description="Example Cluster">
-	<Sensor tag="Sensor 01" x="100.0" y="100.0" max_rate="10.0" data="100.0"/>
-	<Sensor tag="Sensor 02" x="-100.0" y="-100.0" max_rate="10.0" data="200.0"/>
-	<Sensor tag="Sensor 03" x="200.0" y="50.0" max_rate="15.0" data="300.0"/>
-	<Sensor tag="Sensor 04" x="-50.0" y="200.0" max_rate="50.0" data="400.0"/>
+	<Sensor tag="Sensor 01" x="50.0" y="50.0" max_rate="50.0" data="400.0"/>
+	<Sensor tag="Sensor 02" x="150.0" y="25.0" max_rate="50.0" data="400.0"/>
+	<Sensor tag="Sensor 03" x="75.0" y="-50.0" max_rate="50.0" data="400.0"/>
+	<Sensor tag="Sensor 04" x="150.0" y="200.0" max_rate="50.0" data="160.0"/>
 </Cluster>

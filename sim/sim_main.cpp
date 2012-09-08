@@ -192,7 +192,6 @@ int sim_main(const struct arguments *arguments) {
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);
     c0->set_data(state+3);
     
-    
     t += delta_t;
 
 #ifdef USE_VF
