@@ -87,7 +87,7 @@ void compute_control(const double *state, double * const input)
   //Caso contrário, continua a viajar na direção do sensor.
   //Exemplo: 
   
-#if 0
+#if 1
   if (c0.is_empty () || (MAX_AUV_BANDWIDTH >= c0.bandwidth ()))
   {
     // STOP vehicle
@@ -106,7 +106,7 @@ void compute_control(const double *state, double * const input)
     double angle = std::atan2(y, x);
 
     //regular a orientação do veículo para essa direção
-    double err=normalizeRadian(angle-state[1]);
+    double err=normalizeRadian(angle-state[2]);
     input[0]=10;
     input[1]=20*err;
   }
