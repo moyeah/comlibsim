@@ -31,6 +31,9 @@ class Cluster
 private:
   std::vector<Sensor> m_sensors;
   std::vector<Sensor> m_sensors_int;  // Copy of sensors vector to integrate
+  std::string         m_tag;
+  
+  double m_bandwidth;
 
   int    m_nb_act_sensors; // Nb of sensors to connect (selected)
   double m_act_bandwidth;  // Bandwidth used by sensors (selected)
@@ -58,6 +61,9 @@ public:
   virtual double act_bandwidth  () const;
   virtual bool   scheduling     () const;
   virtual int    nb_sensors     () const;
+  virtual double bandwidth      () const;
+
+  virtual void tag (const std::string& tag);
 
   virtual void add (const Sensor& sensor);
 
@@ -71,7 +77,7 @@ public:
                              const double *position,
                              double agv_bandwidth);
 
-  virtual void set_data     (double *data);
+  virtual void set_data     (double *data, double delta_time);
   virtual void set_data_int (const double *data);
   virtual void set_rate     (double *rate);
 
@@ -89,6 +95,7 @@ public:
   virtual void write_rate_log_ln        (double t,
                                          std::ostream& output = std::cout) const;
   virtual void write_map                (std::ostream& output = std::cout) const;
+  virtual void write_tag                (std::ostream& output = std::cout) const;
 };
 
 }

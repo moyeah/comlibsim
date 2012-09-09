@@ -135,7 +135,10 @@ void ComRate::write_ln (std::ostream& output) const
 void ComRate::write_log (std::ostream& output) const
 {
   output << std::fixed << std::setprecision (10);
-  output << m_act_rate;
+  if (m_act_rate >= 0.0)
+    output << m_act_rate;
+  else
+    output << 0.0;
 }
 
 std::ostream& operator << (std::ostream& output,

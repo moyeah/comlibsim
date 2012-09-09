@@ -39,6 +39,9 @@ int Parser::to_cluster (Cluster& cluster,
   if (parser)
   {
     const xmlpp::Node* root_node = parser.get_document ()->get_root_node ();
+    const xmlpp::Element* cluster_node =
+                            dynamic_cast<const xmlpp::Element*>(root_node);
+    cluster.tag (cluster_node->get_attribute_value ("tag"));
 
     xmlpp::Node::NodeList sensors_list =
                             root_node->get_children ("Sensor");

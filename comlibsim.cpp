@@ -95,6 +95,10 @@ main (int argc, char **argv)
 
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
+  // Welcome message
+  std::cout << doc << std::endl;
+  std::cout << argp_program_version << std::endl;
+
   // Run simulation
   nb_sensors = sim_main (&arguments);
 

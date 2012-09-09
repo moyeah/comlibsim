@@ -11,8 +11,11 @@
  #    Jorge Estrela  <jes@isep.ipp.pt>
  ##
 
+WindowId=0
+
 if (NbSensors>0) {
-  set term wxt 0 
+  set term wxt WindowId
+  WindowId=WindowId+1
   set title "Simulation map and AUV movement"
   set xlabel "x"
   set ylabel "y"
@@ -25,13 +28,22 @@ if (NbSensors>0) {
                             fs transparent solid 0.15, \
        "log/sensors.map" u 1:2:(60) t "Limit rate" w circles lc rgb "yellow" \
                             fs transparent solid 0.15 
-  set term wxt 1
-  set title "Sensors data versus simulation time"
+  set term wxt WindowId 
+  WindowId=WindowId+1
+  set title "Sensors data (time)"
   set xlabel "Simulation time"
   set ylabel "Sensor data"
   set autoscale
   plot for [i=2:(NbSensors+1)] "log/accumulator.log" u 1:i \
                                      w lines lw 2 lc i t "Sensor ".(i-1)
+  set term wxt WindowId
+  WindowId=WindowId+1
+  set title "Rate (time)"
+  set xlabel "Simulation time"
+  set ylabel "Rate"
+  set autoscale
+  plot for [i=2:(NbSensors+2)] "log/rate.log" u 1:i \
+                                     w lines lw 2 lc i t columnhead(i)
 }
 else {
   print "ERROR: Sensors number < 1"

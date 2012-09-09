@@ -31,6 +31,7 @@ private:
   Position    m_position;
   ComRate     m_com_rate;
   std::string m_tag;
+  double      m_rate;
 
 public:
   Sensor (const Position& position,
@@ -45,7 +46,7 @@ public:
   virtual bool operator == (const Sensor& sensor) const;
   virtual bool operator != (const Sensor& sensor) const;
 
-  virtual void data (double data);
+  virtual void data (double data, double time = 0.0);
   virtual void rate (double rate);
 
   virtual void get_xy (double *xy) const;
@@ -54,6 +55,7 @@ public:
   virtual double data        () const;
   virtual double max_rate    () const;
   virtual double rate        () const;
+  virtual double bandwidth   () const;
   virtual double rate_at     (const Position& position) const;
   virtual double distance_to (const Position& position) const;
 
@@ -62,6 +64,7 @@ public:
   virtual void write_accumulator_log (std::ostream& output = std::cout) const;
   virtual void write_rate_log        (std::ostream& output = std::cout) const;
   virtual void write_map             (std::ostream& output = std::cout) const;
+  virtual void write_tag             (std::ostream& output = std::cout) const;
 
   friend std::ostream& operator << (std::ostream& output,
                                     const Sensor& sensor);

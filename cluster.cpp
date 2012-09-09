@@ -49,10 +49,10 @@ void Cluster::ComMap::write (std::ostream& output) const
 }
 
 Cluster::Cluster (int nb):
-  m_sensors (),
-  m_nb_act_sensors (0),
-  m_act_bandwidth (0.0),
-  m_scheduling (false)
+  m_sensors(),
+  m_nb_act_sensors(0),
+  m_act_bandwidth(0.0),
+  m_scheduling(false)
 {
   m_sensors.reserve (nb);
 }
@@ -78,6 +78,16 @@ bool Cluster::scheduling () const
 int Cluster::nb_sensors () const
 {
   return static_cast<int>(m_sensors.size ());
+}
+
+double Cluster::bandwidth () const
+{
+  return m_bandwidth;
+}
+
+void Cluster::tag (const std::string& tag)
+{
+  m_tag = tag;
 }
 
 void Cluster::add (const Sensor& sensor)
@@ -152,19 +162,21 @@ void Cluster::get_rate_int (double *rate,
   }
 }
   
-void Cluster::set_data (double *data)
+void Cluster::set_data (double *data, double delta_time)
 {
   int j = 0;
+  m_bandwidth = 0.0;
 
   for (std::vector<Sensor>::iterator i = m_sensors.begin ();
        i != m_sensors.end ();
        i++)
   {
     if (data[j] < 0)
-      i->data (0.0);
+      i->data (0.0, delta_time);
     else
-      i->data (data[j]);
+      i->data (data[j], delta_time);
 
+    m_bandwidth += i->bandwidth ();
     j++;
   }
 }
@@ -322,10 +334,10 @@ void Cluster::write_rate_log (std::ostream& output) const
        i++)
   {
     i->write_rate_log (output);
-
-    if (i != m_sensors.end ())
-      output << " ";
+    output << " ";
   }
+
+  output << m_bandwidth;
 }
 
 void Cluster::write_rate_log_ln (double t, std::ostream& output) const
@@ -348,6 +360,21 @@ void Cluster::write_map (std::ostream& output) const
     if (i != m_sensors.end ())
       output << std::endl;
   }
+}
+
+void Cluster::write_tag (std::ostream& output) const
+{
+  output << "timestamp ";
+
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    i->write_tag (output);
+    output << " ";
+  }
+
+  output << m_tag << std::endl;
 }
 
 }

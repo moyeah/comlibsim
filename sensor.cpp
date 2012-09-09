@@ -23,7 +23,8 @@ Sensor::Sensor (const Position& position,
   m_accumulator(Accumulator (data)),
   m_position(position),
   m_com_rate(ComRate (position, max_rate)),
-  m_tag(tag)
+  m_tag(tag),
+  m_rate(0.0)
 {
 }
 
@@ -31,7 +32,8 @@ Sensor::Sensor (const Sensor& sensor):
   m_accumulator(sensor.m_accumulator),
   m_position(sensor.m_position),
   m_com_rate(sensor.m_com_rate),
-  m_tag(sensor.m_tag)
+  m_tag(sensor.m_tag),
+  m_rate(sensor.m_rate)
 {
 }
 
@@ -49,7 +51,8 @@ bool Sensor::operator == (const Sensor& sensor) const
   return m_accumulator == sensor.m_accumulator &&
          m_position == sensor.m_position &&
          m_com_rate == sensor.m_com_rate &&
-         m_tag == sensor.m_tag;
+         m_tag == sensor.m_tag &&
+         m_rate == sensor.m_rate;
 }
 
 bool Sensor::operator != (const Sensor& sensor) const
@@ -57,8 +60,12 @@ bool Sensor::operator != (const Sensor& sensor) const
   return ! operator == (sensor);
 }
 
-void Sensor::data (double data)
+void Sensor::data (double data, double delta_time)
 {
+  double delta_data;
+
+  delta_data = m_accumulator.get_amount_data () - data;
+  m_rate = delta_data / delta_time;
   m_accumulator.set_amount_data (data);
 }
 
@@ -93,6 +100,11 @@ double Sensor::rate () const
   return m_com_rate.get_act_rate ();
 }
 
+double Sensor::bandwidth () const
+{
+  return m_rate;
+}
+
 double Sensor::rate_at (const Position& position) const
 {
   return m_com_rate.rate_at (position);
@@ -123,13 +135,18 @@ void Sensor::write_accumulator_log (std::ostream& output) const
 
 void Sensor::write_rate_log (std::ostream& output) const
 {
-  m_com_rate.write_log (output);
+  output << m_rate;
 }
 
 void Sensor::write_map (std::ostream& output) const
 {
   m_position.write_map (output);
   output << " " << m_tag; 
+}
+
+void Sensor::write_tag (std::ostream& output) const
+{
+  output << m_tag; 
 }
 
 std::ostream& operator << (std::ostream& output,

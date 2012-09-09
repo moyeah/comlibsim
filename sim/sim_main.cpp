@@ -141,6 +141,7 @@ int sim_main(const struct arguments *arguments) {
   accumulator_log << std::fixed << std::setprecision (10);
   std::ofstream rate_log (arguments->rate_log_file);
   rate_log << std::fixed << std::setprecision (10);
+  c0->write_tag (rate_log);
     
   //constant disturbance
   b=0.25;
@@ -200,9 +201,8 @@ int sim_main(const struct arguments *arguments) {
   c0->write_accumulator_log_ln (t, accumulator_log);
   c0->write_rate_log_ln (t, rate_log);
 
-
     rkIntegrate(&rk_data, delta_t, state, rk_data.aux.input, dynamics);
-  c0->set_data(state+3);
+  c0->set_data(state+3, arguments->step_size);
 //  c0->set_rate();
     
     t += delta_t;
