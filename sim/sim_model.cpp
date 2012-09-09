@@ -88,7 +88,7 @@ void compute_control(const double *state, double * const input)
   //Exemplo: 
   
 #if 0
-  if (c0.is_empty () && (MAX_AUV_BANDWIDTH >= c0.bandwidth ()))
+  if (c0.is_empty () || (MAX_AUV_BANDWIDTH >= c0.bandwidth ()))
   {
     // STOP vehicle
     input[0] = 0;
@@ -96,21 +96,18 @@ void compute_control(const double *state, double * const input)
   }
   else
   {
-  Sensor* closest_sensor;
-  double xy[2];
+    double xy[2];
 
-  closest_sensor = new Sensor(c0.closest (Position (state[0], state[1])));
-
-    closest_sensor->get_xy (xy);
+    c0.closest (Position (state[0], state[1])).get_xy (xy);
 
     double x = xy[0] - state[0];
     double y = xy[1] - state[1];
     double norm = std::sqrt(x * x + y * y);
     double angle = std::atan2(y, x);
-        
+
     //regular a orientação do veículo para essa direção
     double err=normalizeRadian(angle-state[1]);
-    input[0]=1;
+    input[0]=10;
     input[1]=20*err;
   }
 
