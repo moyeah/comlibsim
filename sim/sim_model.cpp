@@ -4,7 +4,7 @@
 #include "../cluster.hpp"
 
 
-#define MAX_AV_BANDWIDTH 1.0
+#define MAX_AUV_BANDWIDTH 1.0
 
 using namespace ComLibSim;
 static Cluster c0;
@@ -65,7 +65,7 @@ int dynamics(double t,  const double *x0, double *deriv, void *param)
   c0.set_data_int(x0+3);
   
 #if 1
-  c0.get_rate_int(deriv+3, x0, MAX_AV_BANDWIDTH);
+  c0.get_rate_int(deriv+3, x0, MAX_AUV_BANDWIDTH);
 #else  
   for(int i=0; i< c0.nb_sensors(); ++i)
     if(x0[3+i]>0)
@@ -88,12 +88,7 @@ void compute_control(const double *state, double * const input)
   //Exemplo: 
   
 #if 0
-  Sensor* closest_sensor;
-  double xy[2];
-
-  closest_sensor = new Sensor(c0.closest (Position (state[0], state[1])));
-
-  if (c0.scheduling () || c0.act_bandwidth () == MAX_AV_BANDWIDTH)
+  if (c0.is_empty () && (MAX_AUV_BANDWIDTH >= c0.bandwidth ()))
   {
     // STOP vehicle
     input[0] = 0;
@@ -101,6 +96,11 @@ void compute_control(const double *state, double * const input)
   }
   else
   {
+  Sensor* closest_sensor;
+  double xy[2];
+
+  closest_sensor = new Sensor(c0.closest (Position (state[0], state[1])));
+
     closest_sensor->get_xy (xy);
 
     double x = xy[0] - state[0];

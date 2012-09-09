@@ -60,6 +60,7 @@ public:
   virtual int    nb_act_sensors () const;
   virtual double act_bandwidth  () const;
   virtual bool   scheduling     () const;
+  virtual bool   is_empty       () const;
   virtual int    nb_sensors     () const;
   virtual double bandwidth      () const;
 

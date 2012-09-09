@@ -75,6 +75,17 @@ bool Cluster::scheduling () const
   return m_scheduling;
 }
 
+bool Cluster::is_empty () const
+{
+  for (std::vector<Sensor>::const_iterator i = m_sensors.begin ();
+       i != m_sensors.end ();
+       i++)
+  {
+    if (!i->is_empty ())
+      return false;
+  }
+      return true;
+}
 int Cluster::nb_sensors () const
 {
   return static_cast<int>(m_sensors.size ());
