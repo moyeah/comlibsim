@@ -4,5 +4,5 @@
 	<Sensor tag="Sensor_01" x="0.0" y="0.0" max_rate="1.0" data="100.0"/>
 	<Sensor tag="Sensor_02" x="10.0" y="10.0" max_rate="1.0" data="100.0"/>
 	<Sensor tag="Sensor_03" x="0.0" y="10.0" max_rate="1.0" data="100.0"/>
-	<Sensor tag="Sensor_04" x="20.0" y="10.0" max_rate="1.0" data="100.0"/>
+	<Sensor tag="Sensor_04" x="20.0" y="20.0" max_rate="1.0" data="100.0"/>
 </Cluster>

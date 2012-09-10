@@ -5,6 +5,7 @@
 
 
 #define MAX_AUV_BANDWIDTH 1.0
+#define MAX_NORM 1.0
 
 using namespace ComLibSim;
 static Cluster c0;
@@ -88,13 +89,18 @@ void compute_control(const double *state, double * const input)
   //Exemplo: 
   
 #if 1
-  if (c0.is_empty () || (MAX_AUV_BANDWIDTH >= c0.bandwidth ()))
+  if (c0.is_empty ())
   {
     // STOP vehicle
     input[0] = 0;
     input[1] = 0;
   }
-  else
+  else if (c0.bandwidth () >= MAX_AUV_BANDWIDTH)
+	{
+		input[0] = 0;
+		input[1] = 0;
+	}
+	else
   {
     double xy[2];
 
@@ -107,7 +113,13 @@ void compute_control(const double *state, double * const input)
 
     //regular a orientação do veículo para essa direção
     double err=normalizeRadian(angle-state[2]);
-    input[0]=10;
+
+		if(norm > MAX_NORM)
+			norm = MAX_NORM;
+		else if(norm < -MAX_NORM)
+			norm = -MAX_NORM;
+				
+    input[0]=norm;
     input[1]=20*err;
   }
 
