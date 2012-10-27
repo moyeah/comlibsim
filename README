@@ -16,15 +16,15 @@
 
 What is it?
 -----------
-The ComLibSim is a library to simulate the comunication between sensors,
+The ComLibSim is a library to simulate the communications between sensors,
 including the bandwidth scheduling. It has been designed to be apart of
-a simulation mecanism to test deferent scenarios of communication.
+a simulation mechanism to test deferent scenarios of communication.
 All source code is developed in C++.
 
 
 The last version
 ----------------
-The source code is availabe in git "format". For further details please
+The source code is available in git "format". For further details please
 consult https://github.com/moyeah/comlibsim.git.
 To clone repository run "git clone https://github.com/moyeah/comlibsim.git"
 
@@ -55,13 +55,13 @@ The relations are presented bellow:
 
   class Position
   --------------
-  This class represents a position, x and y coordenates of a point in the
+  This class represents a position, x and y coordinates of a point in the
   plane. It's used to represent the location of a Sensor in the world.
 
   class ComRate
   -------------
   This class represents the communication rate and is able to calculate the
-  rate in deferente distances. It's used to represent the Sensor communication
+  rate in different distances. It's used to represent the Sensor communication
   map in the world.
 
   class Sensor
@@ -72,15 +72,15 @@ The relations are presented bellow:
   class Cluster
   -------------
   This class represents the world with all available Sensors and respective 
-  caracteristics. The bandwidth scheduling mecanism is available in this 
-  class either for discrite simulation either for continuous simulation.
+  characteristics. The bandwidth scheduling mechanism is available in this 
+  class either for discrete simulation either for continuous simulation.
 
 In order to import configurations from xml file, there's a class Parser to 
 manage all the required tasks.
 
   class Parser
   ------------
-  This class was develop to able the separation and frendly use of diferent
+  This class was develop to able the separation and friendly use of different
   cluster configurations. It enable the import of configuration xml files.
   It's used to create a Cluster from a external xml file.
 
@@ -128,11 +128,11 @@ The easy way is to make use of the GNU Make tool.
 
 Use
 ---
-This charpter is presented in terms of example to able the reader to understand
+This chapter is presented in terms of example to able the reader to understand
 how to use the code.
 The 1st work to be made is related with the creation/initialization of the 
 Cluster.
-The library able the user to work in 2(two) diferent scenarios in terms of 
+The library able the user to work in 2(two) different scenarios in terms of 
 Cluster initialization:
  * with xml configuration
  * without xml configuration (hard coding)
@@ -199,7 +199,7 @@ Cluster initialization:
       Sensor sensor_03 (Position (100.0, 100.0), 50.0, 500.0);
       Sensor sensor_04 (Position (10.0, 10.0), 50.0, 500.0);
 
-      // Add the sensores to the cluster
+      // Add the sensors to the cluster
       cluster.add (sensor_00);
       cluster.add (sensor_01);
       cluster.add (sensor_02);
@@ -210,7 +210,7 @@ Cluster initialization:
 
 Either by one or other of the above methods used  to create/initialize the 
 cluster, next you shall make use of the methods available to select the sensors
-able to connect and the sensors bandwidth including the bandwisth scheduling.
+able to connect and the sensors bandwidth including the bandwidth scheduling.
 
 The tasks mentioned above can be used by 2(two) ways, discrete simulation or 
 continuous.
@@ -253,7 +253,7 @@ continuous.
 
   Continuous simulation
   ~~~~~~~~~~~~~~~~~~~~~
-  A continuous simalation is intended to be a simulation with variable
+  A continuous simulation is intended to be a simulation with variable
   step size, without  coder control. The step is defined in the execution
   of the simulation.
 
@@ -268,7 +268,7 @@ continuous.
 
       (...)
 
-      // Inicialize integration cluster
+      // Initialize integration cluster
       cluster.init_int ();
 
       // Get the sensors actual communication rate
