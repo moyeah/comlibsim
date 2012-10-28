@@ -259,7 +259,7 @@ Cluster::ComMap Cluster::map (const Position& position,
   m_act_bandwidth = selected.select (m_sensors, position);
   m_nb_act_sensors = static_cast<int> (selected.size ());
   m_scheduling = ((agv_bandwidth < m_act_bandwidth) &&
-                  (m_nb_act_sensors > 0));
+                 (m_nb_act_sensors > 0));
 
   if (m_scheduling)
   {
@@ -282,7 +282,7 @@ Cluster::ComMap Cluster::map_int (const Position& position,
   m_act_bandwidth_int = selected_int.select (m_sensors_int, position);
   m_nb_act_sensors_int = static_cast<int> (selected_int.size ());
   m_scheduling_int = ((agv_bandwidth < m_act_bandwidth_int) &&
-                  (m_nb_act_sensors_int > 0));
+                     (m_nb_act_sensors_int > 0));
 
   if (m_scheduling_int)
   {
