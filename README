@@ -239,14 +239,14 @@ continuous.
 
       // Get the sensors actual communication rate
       double s0_rate = sensor_00.rate ();
-      double s0_rate = sensor_01.rate ();
-      double s0_rate = sensor_02.rate ();
-      double s0_rate = sensor_03.rate ();
-      double s0_rate = sensor_04.rate ();
+      double s1_rate = sensor_01.rate ();
+      double s2_rate = sensor_02.rate ();
+      double s3_rate = sensor_03.rate ();
+      double s4_rate = sensor_04.rate ();
 
       // or
       //   to use this method you have to allocate the 
-      //     memory of pointer rate in you code
+      //     memory of pointer rate in your code
       cluster.get_rate (rate)
     }
     """"""""""""""""""""""""""""""""""""""""""""""
