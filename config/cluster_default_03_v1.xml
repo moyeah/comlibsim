@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML Example file of cluster configuration -->
+<Cluster tag="Cluster_03">
+	<Sensor tag="Sensor_01" x="-10.0" y="10.0" max_rate="100.0" data="1000.0"/>
+	<Sensor tag="Sensor_02" x="40.0" y="60.0" max_rate="100.0" data="1000.0"/>
+	<Sensor tag="Sensor_03" x="50.0" y="45.0" max_rate="100.0" data="2500.0"/>
+</Cluster>

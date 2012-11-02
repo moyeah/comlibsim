@@ -14,16 +14,16 @@
 WindowId=0
 
 if (NbSensors>0) \
+  plot "log/sensors.map" u 1:2; \
   set term wxt WindowId; \
   WindowId=WindowId+1; \
   set title "Simulation map and AUV movement"; \
   set xlabel "x"; \
   set ylabel "y"; \
-  set yr [-60:80]; \
-  set xr [-60:80]; \
+  set size ratio -1; \
   plot "log/simulation.log" u 2:3 t "AUV move" w lines lw 2, \
        "log/sensors.map" u 1:2:3 notitle w labels, \
-       "log/sensors.map" u 1:2:(20) t "Max rate" w circles lc rgb "green" \
+       "log/sensors.map" u 1:2:(20.0) t "Max rate" w circles lc rgb "green" \
                             fs transparent solid 0.15, \
        "log/sensors.map" u 1:2:(33.863) t "1/2 rate" w circles lc rgb "blue" \
                             fs transparent solid 0.15, \
@@ -34,7 +34,7 @@ if (NbSensors>0) \
   set title "Sensors data (time)"; \
   set xlabel "Simulation time"; \
   set ylabel "Sensor data"; \
-  set autoscale; \
+  set size nosquare; \
   plot for [i=2:(NbSensors+1)] "log/accumulator.log" u 1:i \
                                      w lines lw 2 lc i t "Sensor ".(i-1); \
   set term wxt WindowId; \
@@ -42,7 +42,7 @@ if (NbSensors>0) \
   set title "Rate (time)"; \
   set xlabel "Simulation time"; \
   set ylabel "Rate"; \
-  set autoscale; \
+  set size nosquare; \
   plot for [i=2:(NbSensors+2)] "log/rate.log" u 1:i \
                                      w lines lw 2 lc i t columnhead(i); \
 else \
