@@ -4,7 +4,7 @@
 #include "../cluster.hpp"
 
 
-#define MAX_AUV_BANDWIDTH 100.0
+#define MAX_AUV_BANDWIDTH 1.0
 #define MAX_NORM 1.0
 
 using namespace ComLibSim;
@@ -58,11 +58,6 @@ int dynamics(double t,  const double *x0, double *deriv, void *param)
   deriv[1] = input[0]*sin(x0[2]);    
   deriv[2] = input[1];
   
-  //completar com derivadas da "informação por copiar" em cada sensor
-  //NOTA: actualizar a variável n_dim em sim_main.cpp
-  //deriv[3]=...
-  //deriv[4]=
-
   c0.set_data_int(x0+3);
   
 #if 1
@@ -92,8 +87,8 @@ void compute_control(const double *state, double * const input)
 	{
 	  //input[0] = 10;
 	  //input[1] = 0.25;
-	    input[0] = 0;
-	    input[1] = 0;
+	  input[0] = 0;
+	  input[1] = 0;
 	}
 	else
   {

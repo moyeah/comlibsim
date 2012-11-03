@@ -96,10 +96,10 @@ double ComRate::get_act_rate () const
 double ComRate::rate_at (double distance) const
 {
   if (distance < m_radius_low)
-    return - m_max_rate;
+    return (- m_max_rate);
 
   if (distance < m_radius_high)
-    return - m_max_rate * ::exp (1 - (distance / m_radius_low));
+    return (- (m_max_rate * ::exp (1 - (distance / m_radius_low))));
 //    return - m_max_rate * ::pow (10.0, -0.024 * distance);
 
   return 0.0;
