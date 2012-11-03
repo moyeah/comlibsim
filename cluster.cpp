@@ -182,11 +182,7 @@ void Cluster::set_data (double *data, double delta_time)
        i != m_sensors.end ();
        i++)
   {
-    if (data[j] < 0)
-      i->data (0.0, delta_time);
-    else
-      i->data (data[j], delta_time);
-
+    i->data (data[j], delta_time);
     m_bandwidth += i->bandwidth ();
     j++;
   }
@@ -200,11 +196,7 @@ void Cluster::set_data_int (const double *data)
        i != m_sensors_int.end ();
        i++)
   {
-    if (data[j] < 0)
-      i->data (0.0);
-    else
-      i->data (data[j]);
-
+    i->data (data[j]);
     j++;
   }
 }

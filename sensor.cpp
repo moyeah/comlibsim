@@ -64,9 +64,18 @@ void Sensor::data (double data, double delta_time)
 {
   double delta_data;
 
-  delta_data = m_accumulator.get_amount_data () - data;
+  if (data < 0.0)
+  {
+    delta_data = m_accumulator.get_amount_data ();
+    m_accumulator.set_amount_data (0.0);
+  }
+  else
+  {
+    delta_data = m_accumulator.get_amount_data () - data;
+    m_accumulator.set_amount_data (data);
+  }
+
   m_rate = delta_data / delta_time;
-  m_accumulator.set_amount_data (data);
 }
 
 void Sensor::rate (double rate)

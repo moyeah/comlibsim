@@ -80,13 +80,6 @@ int dynamics(double t,  const double *x0, double *deriv, void *param)
 
 void compute_control(const double *state, double * const input)
 {
-  //1 - identificar sensor mais proximo
-  //2 - determinar se 
-  //a) data rate do sensor mais próximo é máxima, ou
-  //b) se já atingiu o máximo do canal com o veículo. 
-  //Se alguma destas condições for verdadeira, o veículo de verá parar (v=0)
-  //Caso contrário, continua a viajar na direção do sensor.
-  //Exemplo: 
   
 #if 1
   if (c0.is_empty ())
@@ -97,8 +90,10 @@ void compute_control(const double *state, double * const input)
   }
   else if (c0.bandwidth () >= MAX_AUV_BANDWIDTH)
 	{
-		input[0] = 10;
-		input[1] = 0.25;
+	  //input[0] = 10;
+	  //input[1] = 0.25;
+	    input[0] = 0;
+	    input[1] = 0;
 	}
 	else
   {
