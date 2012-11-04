@@ -88,7 +88,7 @@ void compute_control(const double *state, double * const input)
           #if 0
 	  input[0] = 1;
 	  input[1] = 0.5;
-          #elif 1
+          #elif 0
 	  input[0] = 10;
 	  input[1] = 0.25;
           #else
