@@ -67,14 +67,12 @@ int sim_main(const struct arguments *arguments) {
 
   Cluster *c0 = init_cluster();
 
-/* Test parser */
   Parser parser (arguments->cluster_xml_file[0]);
 
   parser.to_cluster (*c0);
 
   std::ofstream sensors_map (arguments->sensors_map_file);
   c0->write_map (sensors_map);
-/* END Test parser*/
 
 #ifdef USE_VF  
   char undef;    
@@ -130,7 +128,6 @@ int sim_main(const struct arguments *arguments) {
   //output filename
   std::ofstream simulation_log (arguments->simulation_log_file);
   simulation_log << std::fixed << std::setprecision (10);
-//  fp = fopen(arguments->output_file,"w"); 
  
   if (arguments->verbose == 1) 
     printf("%d %f %f\n",control_div_max, delta_t_control, delta_t);

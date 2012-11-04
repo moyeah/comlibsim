@@ -27,20 +27,6 @@ normalizeRadian(double a)
   
 Cluster* init_cluster()
 {
-/*
-  Sensor s0 (Position (0.0, 0.0), 50.0, 500.0);
-  Sensor s1 (Position (100.0, 0.0), 50.0, 500.0);
-  Sensor s2 (Position (0.0, 100.0), 50.0, 500.0);
-  Sensor s3 (Position (100.0, 100.0), 50.0, 500.0);
-
-  c0.add (s0);
-  c0.add (s1);
-  c0.add (s2);
-  c0.add (s3);
-  
-  printf("Hard coded added: %d sensors \n", c0.nb_sensors());
-*/
-
   return &c0;
 }
 
@@ -116,33 +102,6 @@ void compute_control(const double *state, double * const input)
     input[0]=norm;
     input[1]=20*err;
   }
-
-/*
-#if 0  
-  double xy[2];
-  sensor = sensors->getClosest();
-  dr = sensor->GetDataRate(state);
-  if(sensor->getMaxDataRate()==dr || dr==vehicle_max_data_rate)
-  {
-    input[0]=0;//velocidade do veic (m/s)
-    input[1]=0;//direção veiculo (rad)
-  }
-  else
-  {
-    //tirar a direção para o sensor
-    sensor->getLocation(xy);
-    
-    double x=xy[0]-state[0];
-    double y=xy[1]-state[1];
-    norm = std::sqrt(x * x + y * y);
-    angle = std::atan2(y, x);
-        
-    //regular a orientação do veículo para essa direção
-    double err=normalizeRadian(angle-state[1]);
-    input[0]=1;
-    input[1]=20*err;
-  }  
-*/
 
 #else
 
