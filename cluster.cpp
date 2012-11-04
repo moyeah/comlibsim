@@ -29,13 +29,15 @@ double Cluster::ComMap::select (std::vector<Sensor>& sensors,
 	
     if (!i->is_empty () && rate != 0.0)
     {
-      bandwidth -= rate;
+      bandwidth += rate;
       i->rate (rate);
       push_back (i);
     }
+    else
+      i->rate (0.0);
   }
 
-  return bandwidth;
+  return (- bandwidth);
 }
 
 void Cluster::ComMap::write (std::ostream& output) const

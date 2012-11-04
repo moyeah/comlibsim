@@ -85,10 +85,16 @@ void compute_control(const double *state, double * const input)
   }
   else if (c0.bandwidth () >= MAX_AUV_BANDWIDTH)
 	{
-	  //input[0] = 10;
-	  //input[1] = 0.25;
+          #if 0
+	  input[0] = 1;
+	  input[1] = 0.5;
+          #elif 1
+	  input[0] = 10;
+	  input[1] = 0.25;
+          #else
 	  input[0] = 0;
 	  input[1] = 0;
+	  #endif
 	}
 	else
   {
